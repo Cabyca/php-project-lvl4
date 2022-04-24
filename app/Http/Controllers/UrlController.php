@@ -12,6 +12,5 @@ class UrlController extends Controller
     {
         Log::debug('Test debug message');
         print_r("Превед медвед!");
-
     }
 }
