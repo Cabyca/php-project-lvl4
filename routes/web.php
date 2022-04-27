@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UrlController;
 
@@ -19,3 +22,9 @@ Route::get('/', function () {
 });
 
 Route::get('urls', [UrlController::class, 'index']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('user', UserController::class);
