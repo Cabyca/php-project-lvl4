@@ -15,6 +15,14 @@ class UserController extends Controller
      */
     public function index()
     {
+//        Метод to принимает адрес электронной почты, экземпляр пользователя или набор пользователей
+//
+//        public function store(Request $request)
+//        {
+//            $order = Order::findOrFail($request->order_id);
+//            // Ship the order...
+//            Mail::to($request->user())->send(new OrderShipped($order));
+//        }
         Mail::to('alex@google.com')->send(new OrderShipped('123'));
     }
 

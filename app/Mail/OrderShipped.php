@@ -11,7 +11,7 @@ class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $password;
+    public string $password;
 
     /**
      * Create a new message instance.
@@ -31,6 +31,6 @@ class OrderShipped extends Mailable
      */
     public function build(): static
     {
-        return $this->view('emails.user.password');
+        return $this->markdown('emails.user.password');
     }
 }
