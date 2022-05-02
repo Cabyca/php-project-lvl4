@@ -49,8 +49,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        //$messages = ['required' => 'The :attribute field is required.', 'email.email' => 'Wrong email format',
+        // 'name.unique' => 'Given name is not unique', 'birth_date.date_format' => 'Date not in correct format'];
+//@method static \Illuminate\Contracts\Validation\Validator make(array $data, array $rules,
+// array $messages = [], array $customAttributes = [])
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'min:1', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

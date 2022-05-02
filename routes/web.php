@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -29,3 +30,5 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('user', UserController::class);
+
+Route::resource('task_statuses', TaskStatusController::class);
