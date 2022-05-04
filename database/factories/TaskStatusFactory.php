@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +10,20 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TaskStatusFactory extends Factory
 {
+    protected $model = TaskStatus::class;
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->randomElement(['новый', 'в работе', 'на тестировании', 'завершен']),
+//           'status_id' => TaskStatus::factory()->create()->id,
+//            'created_by_id' => User::factory()->create()->id,
+//            'assigned_to_id' => User::factory()->create()->id,
         ];
     }
 }
