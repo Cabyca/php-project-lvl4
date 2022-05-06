@@ -16,16 +16,6 @@ class Task extends Model
         return $this->belongsTo(TaskStatus::class);
     }
 
-//    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
-//    {
-//        return $this->hasOne(User::class, 'id', 'created_by_id');
-//    }
-//
-//    public function userAssigned(): \Illuminate\Database\Eloquent\Relations\HasOne
-//    {
-//        return $this->hasOne(User::class, 'id', 'assigned_to_id');
-//    }
-
     public function assignedTo(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -34,5 +24,10 @@ class Task extends Model
     public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function labels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Label::class);
     }
 }

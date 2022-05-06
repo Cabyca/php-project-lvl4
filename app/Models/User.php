@@ -51,6 +51,7 @@ class User extends Authenticatable
 
     public function assignedToTasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
+        //Тут наверное belongTo
         return $this->hasMany(Task::class, 'assigned_to_id');
     }
 }
