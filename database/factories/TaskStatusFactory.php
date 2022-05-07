@@ -6,7 +6,7 @@ use App\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TaskStatus>
+ * @extends Factory
  */
 class TaskStatusFactory extends Factory
 {
@@ -20,10 +20,7 @@ class TaskStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(['новый', 'в работе', 'на тестировании', 'завершен']),
-//           'status_id' => TaskStatus::factory()->create()->id,
-//            'created_by_id' => User::factory()->create()->id,
-//            'assigned_to_id' => User::factory()->create()->id,
+            'name' => $this->faker->unique()->randomElement(['новый', 'в работе', 'на тестировании', 'завершен'])
         ];
     }
 }
