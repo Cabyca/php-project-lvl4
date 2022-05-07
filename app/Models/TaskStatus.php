@@ -13,6 +13,6 @@ class TaskStatus extends Model
 
     public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'status_id', 'id');
     }
 }

@@ -9,11 +9,9 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $table = 'tasks';
-
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(TaskStatus::class);
+        return $this->belongsTo(TaskStatus::class, 'status_id', 'id');
     }
 
     public function assignedTo(): \Illuminate\Database\Eloquent\Relations\BelongsTo

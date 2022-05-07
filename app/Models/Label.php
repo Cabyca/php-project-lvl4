@@ -9,8 +9,6 @@ class Label extends Model
 {
     use HasFactory;
 
-    protected $table = 'labels';
-
     public function tasks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Task::class);
