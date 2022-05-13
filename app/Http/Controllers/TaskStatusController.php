@@ -2,48 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTaskStatusRequest;
-use App\Http\Requests\UpdateTaskStatusRequest;
 use App\Models\TaskStatus;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class TaskStatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        echo "Превед медвед";
+        $statuses = TaskStatus::all()->sort();
+
+        return view('statuses.index', compact('statuses'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('statuses.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreTaskStatusRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function store(StoreTaskStatusRequest $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|unique:task_statuses'
+        ]);
+
+        $newStatus = new TaskStatus();
+        $newStatus->name =  $request->name;
+        // При ошибках сохранения возникнет исключение
+        $newStatus->save();
+
+        flash('Статус успешно создан')->success();
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Http\Response
+     * @param TaskStatus $taskStatus
+     * @return Response
      */
     public function show(TaskStatus $taskStatus)
     {
@@ -53,34 +71,54 @@ class TaskStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Http\Response
+     * @param TaskStatus $taskStatus
+     * @return Factory|View
      */
-    public function edit(TaskStatus $taskStatus)
+    public function edit(TaskStatus $taskStatus): View|Factory
     {
-        //
+        return view('statuses.edit', compact('taskStatus'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTaskStatusRequest  $request
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(UpdateTaskStatusRequest $request, TaskStatus $taskStatus)
+    public function update(Request $request, int $id): RedirectResponse
     {
-        //
+        $status = TaskStatus::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|string|unique:task_statuses'
+        ]);
+
+        $status->name = $request->name;
+        $status->save();
+
+        flash('Статус успешно изменен')->success();
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function destroy(TaskStatus $taskStatus)
+    //public function destroy(TaskStatus $taskStatus): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $status = TaskStatus::find($id);
+
+        if ($status) {
+            $status->delete();
+        }
+
+        flash('Статус успешно удален')->success();
+
+        return redirect()->route('task_statuses.index');
     }
 }

@@ -38,7 +38,7 @@
                             <a class="nav-link " href="https://php-task-manager-ru.hexlet.app/tasks">Задачи</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="https://php-task-manager-ru.hexlet.app/task_statuses">Статусы</a>
+                            <a class="nav-link " href="{{ route('task_statuses.index') }}">Статусы</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="https://php-task-manager-ru.hexlet.app/labels">Метки</a>
@@ -82,8 +82,15 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
+        <main class="container py-4">
+            @include('flash::message')
+            <div class="flex-shrink-0">
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <h5 class="alert alert-danger" role="alert" class="flex-shrink-0">{{ $error }}</h5>
+                    @endforeach
+                @endif
+            </div>
             @yield('content')
         </main>
     </div>

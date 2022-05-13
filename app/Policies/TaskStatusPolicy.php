@@ -5,6 +5,8 @@ namespace App\Policies;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class TaskStatusPolicy
 {
@@ -13,10 +15,10 @@ class TaskStatusPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
         //
     }
@@ -24,11 +26,11 @@ class TaskStatusPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param TaskStatus $taskStatus
+     * @return void
      */
-    public function view(User $user, TaskStatus $taskStatus)
+    public function view(User $user, TaskStatus $taskStatus): void
     {
         //
     }
@@ -36,46 +38,46 @@ class TaskStatusPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
-        //
+        return (bool) $user;
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param TaskStatus $taskStatus
+     * @return Response|bool
      */
-    public function update(User $user, TaskStatus $taskStatus)
+    public function update(User $user, TaskStatus $taskStatus): Response|bool
     {
-        //
+        return (bool) $user;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param TaskStatus $taskStatus
+     * @return Response|bool
      */
-    public function delete(User $user, TaskStatus $taskStatus)
+    public function delete(User $user, TaskStatus $taskStatus): Response|bool
     {
-        //
+        return (bool) $user;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param TaskStatus $taskStatus
+     * @return Response|bool
      */
-    public function restore(User $user, TaskStatus $taskStatus)
+    public function restore(User $user, TaskStatus $taskStatus): Response|bool
     {
         //
     }
@@ -83,11 +85,11 @@ class TaskStatusPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param TaskStatus $taskStatus
+     * @return Response|bool
      */
-    public function forceDelete(User $user, TaskStatus $taskStatus)
+    public function forceDelete(User $user, TaskStatus $taskStatus): Response|bool
     {
         //
     }

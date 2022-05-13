@@ -11,6 +11,14 @@ class Task extends Model
 
     protected $table = 'tasks';
 
+    protected $fillable = [
+        'name',
+        'description',
+        'status_id',
+        'created_by_id',
+        'assigned_to_id'
+    ];
+
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TaskStatus::class, 'status_id', 'id');

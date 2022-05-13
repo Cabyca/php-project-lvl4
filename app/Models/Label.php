@@ -11,6 +11,11 @@ class Label extends Model
 
     protected $table = 'labels';
 
+    protected $fillable = [
+        'name',
+        'description'
+    ];
+
     public function tasks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Task::class);
