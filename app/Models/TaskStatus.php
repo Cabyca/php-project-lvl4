@@ -11,6 +11,10 @@ class TaskStatus extends Model
 
     protected $table = 'task_statuses';
 
+    protected $fillable = [
+        'name'
+    ];
+
     public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Task::class, 'status_id', 'id');

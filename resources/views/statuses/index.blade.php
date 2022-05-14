@@ -25,7 +25,14 @@
                     <td>{{ $status->created_at }}</td>
                     <td>
                         @can('delete', $status)
-                            <a class="text-danger text-decoration-none" href="{{ route('task_statuses.destroy', $status->id) }}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+                            <a class="text-danger text-decoration-none"
+                               href="{{ route('task_statuses.destroy', $status) }}"
+                               data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+
+{{--                            <form method="post" class="delete_form" action="{{route('listajoburi.destroy',$row['id'])}}">--}}
+{{--                                @csrf--}}
+{{--                                @method('delete')--}}
+{{--                            </form>--}}
                         @endcan
                         @can('update', $status)
                             <a class="text-decoration-none" href="{{ route('task_statuses.edit', $status->id) }}">Изменить</a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\TaskStatus;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -43,14 +44,15 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required|string|unique:task_statuses'
-        ]);
+        $taskStatus = new TaskStatus();
 
-        $newStatus = new TaskStatus();
-        $newStatus->name =  $request->name;
-        // При ошибках сохранения возникнет исключение
-        $newStatus->save();
+        $data = $this->validate($request, [
+            'name' => 'required|string|unique:task_statuses'
+        ], ['name.unique' => __('validation.task_status.name'),
+            'name.string' => __('validation.task_status.string')]);
+
+        $taskStatus->fill($data);
+        $taskStatus->save();
 
         flash('Статус успешно создан')->success();
 
@@ -88,14 +90,14 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
-        $status = TaskStatus::findOrFail($id);
+        $taskStatus = TaskStatus::findOrFail($id);
 
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses'
         ]);
 
-        $status->name = $request->name;
-        $status->save();
+        $taskStatus->fill($data);
+        $taskStatus->save();
 
         flash('Статус успешно изменен')->success();
 
@@ -109,13 +111,19 @@ class TaskStatusController extends Controller
      * @return RedirectResponse
      */
     //public function destroy(TaskStatus $taskStatus): RedirectResponse
-    public function destroy(int $id): RedirectResponse
+    public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
+        dd($taskStatus);
+
+
+//        if (Task::where('status_id', $id)) {
+//            flash('Невозможно удалить статус - есть привязанные задачи')->success();
+//            return redirect()->route('task_statuses.index');
+//        }
+
         $status = TaskStatus::find($id);
 
-        if ($status) {
-            $status->delete();
-        }
+        $status->delete();
 
         flash('Статус успешно удален')->success();
 
