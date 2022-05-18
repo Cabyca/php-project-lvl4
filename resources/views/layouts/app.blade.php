@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="https://php-task-manager-ru.hexlet.app">Менеджер задач</a>
+                <a class="navbar-brand" href="/">Менеджер задач</a>
 {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
 {{--                    {{ config('app.name', 'Laravel') }}--}}
 {{--                </a>--}}
@@ -34,13 +34,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link " href="https://php-task-manager-ru.hexlet.app/tasks">Задачи</a>
+                            <a class="nav-link" href="{{ route('tasks.index') }}">Задачи</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="{{ route('task_statuses.index') }}">Статусы</a>
+                            <a class="nav-link" href="{{ route('task_statuses.index') }}">Статусы</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="https://php-task-manager-ru.hexlet.app/labels">Метки</a>
+                            <a class="nav-link" href="{{ route('labels.index') }}">Метки</a>
                         </li>
                     </ul>
                     <!-- Right Side Of Navbar -->
@@ -83,13 +83,13 @@
         </nav>
         <main class="container py-4">
             @include('flash::message')
-            <div class="flex-shrink-0">
-                @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <h5 class="alert alert-danger" role="alert" class="flex-shrink-0">{{ $error }}</h5>
-                    @endforeach
-                @endif
-            </div>
+{{--            <div class="flex-shrink-0">--}}
+{{--                @if ($errors->any())--}}
+{{--                    @foreach ($errors->all() as $error)--}}
+{{--                        <h5 class="alert alert-danger" role="alert" class="flex-shrink-0">{{ $error }}</h5>--}}
+{{--                    @endforeach--}}
+{{--                @endif--}}
+{{--            </div>--}}
             @yield('content')
         </main>
     </div>

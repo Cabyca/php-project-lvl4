@@ -3,8 +3,7 @@
     <main class="container py-4">
         <h1 class="mb-5">Статусы</h1>
         @auth
-        <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">
-            Создать статус</a>
+            <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">Создать статус</a>
         @endauth
         <table class="table mt-2">
             <thead>
@@ -28,11 +27,17 @@
                             <a class="text-danger text-decoration-none"
                                href="{{ route('task_statuses.destroy', $status) }}"
                                data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+{{--                            <form method="post" class="delete_form" action="{{ route('task_statuses.destroy', $status) }}">--}}
+{{--                                @csrf--}}
+{{--                                @method('delete')--}}
+{{--                            </form>--}}
 
+{{--                            <a href="{{ route('listajoburi.destroy',$row['id']) }}" class="btn btn-danger">Delete</a>--}}
 {{--                            <form method="post" class="delete_form" action="{{route('listajoburi.destroy',$row['id'])}}">--}}
 {{--                                @csrf--}}
 {{--                                @method('delete')--}}
 {{--                            </form>--}}
+
                         @endcan
                         @can('update', $status)
                             <a class="text-decoration-none" href="{{ route('task_statuses.edit', $status->id) }}">Изменить</a>

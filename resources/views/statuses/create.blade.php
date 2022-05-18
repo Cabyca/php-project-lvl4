@@ -7,7 +7,10 @@
             @csrf
             <div class="form-group mb-3">
                 <label for="name">Имя</label>
-                <input class="form-control" name="name" type="text" id="name">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
+                    @error('name')
+                        <div class="invalid-feedback">Статус с таким именем уже существует</div>
+                    @enderror
             </div>
             <input class="btn btn-primary mt-3" type="submit" value="Создать">
         </form>

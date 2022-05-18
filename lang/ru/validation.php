@@ -13,10 +13,11 @@ return [
     |
     */
 
-    'task_status' => [
-        'name' => 'Такой статус уже есть',
-        'string' => 'Должна быть строка',
-    ],
+//    'task_status' => [
+//        'name' => 'Такой статус уже есть'
+//    ],
+
+
     'accepted' => 'The :attribute must be accepted.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
     'active_url' => 'The :attribute is not a valid URL.',
@@ -164,7 +165,7 @@ return [
         'password' => [
             'required' => 'Это обязательное поле',
             'string' => 'Пароль должен быть строкой',
-            'min' => 'Пароль должен быть не менее 8 знаков',
+            'min' => 'Пароль должен иметь длину не менее 8 символов',
             'confirmed' => 'Пароль и подтверждение не совпадают'
         ]
     ],

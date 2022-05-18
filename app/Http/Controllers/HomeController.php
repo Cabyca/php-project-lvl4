@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -19,10 +21,11 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return RedirectResponse
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        return view('home');
+        return redirect('/');
+        //return view('welcome');
     }
 }

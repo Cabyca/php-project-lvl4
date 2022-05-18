@@ -48,8 +48,11 @@ class TaskStatusController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses'
-        ], ['name.unique' => __('validation.task_status.name'),
-            'name.string' => __('validation.task_status.string')]);
+        ]);
+
+//        $data = $this->validate($request, [
+//            'name' => 'required|string|unique:task_statuses'
+//        ], ['name.unique' => __('validation.task_status.name')]);
 
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -74,9 +77,9 @@ class TaskStatusController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param TaskStatus $taskStatus
-     * @return Factory|View
+     * @return View
      */
-    public function edit(TaskStatus $taskStatus): View|Factory
+    public function edit(TaskStatus $taskStatus): View
     {
         return view('statuses.edit', compact('taskStatus'));
     }
@@ -107,13 +110,13 @@ class TaskStatusController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param TaskStatus $taskStatus
      * @return RedirectResponse
      */
     //public function destroy(TaskStatus $taskStatus): RedirectResponse
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
-        dd($taskStatus);
+        //dd($taskStatus);
 
 
 //        if (Task::where('status_id', $id)) {
@@ -121,7 +124,7 @@ class TaskStatusController extends Controller
 //            return redirect()->route('task_statuses.index');
 //        }
 
-        $status = TaskStatus::find($id);
+        $status = TaskStatus::find($taskStatus->id);
 
         $status->delete();
 
