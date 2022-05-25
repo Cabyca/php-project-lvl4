@@ -22,24 +22,12 @@
                     <td>{{ $label->description }}</td>
                     <td>{{ $label->created_at }}</td>
                     <td>
-                        <a class="text-danger text-decoration-none" href="https://php-task-manager-ru.hexlet.app/labels/1" data-confirm="Вы уверены?" data-method="delete">Удалить</a>
+                        @auth
+                        <a class="text-danger text-decoration-none" href="{{ route('labels.destroy', $label) }}"
+                           data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
                         <a class="text-decoration-none" href="{{ route('labels.edit', $label->id) }}">Изменить</a>
+                        @endauth
                     </td>
-{{--                    <td>--}}
-{{--                        @can('delete', $status)--}}
-{{--                            <a class="text-danger text-decoration-none"--}}
-{{--                               href="{{ route('task_statuses.destroy', $status) }}"--}}
-{{--                               data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>--}}
-
-{{--                            --}}{{--                            <form method="post" class="delete_form" action="{{route('listajoburi.destroy',$row['id'])}}">--}}
-{{--                            --}}{{--                                @csrf--}}
-{{--                            --}}{{--                                @method('delete')--}}
-{{--                            --}}{{--                            </form>--}}
-{{--                        @endcan--}}
-{{--                        @can('update', $status)--}}
-{{--                            <a class="text-decoration-none" href="{{ route('task_statuses.edit', $status->id) }}">Изменить</a>--}}
-{{--                        @endcan--}}
-{{--                    </td>--}}
                 </tr>
             @endforeach
             </tbody>

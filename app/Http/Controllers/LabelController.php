@@ -33,22 +33,20 @@ class LabelController extends Controller
      */
     public function create(): View
     {
-        return view('labels.create');
+        $label = new Label();
+        return view('labels.create', compact('label'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
         $label = new Label();
-
-//        $table->string('name');
-//        $table->text('description')->nullable();
 
         $data = $this->validate($request, [
             'name' => 'required|string|unique:labels',
@@ -98,7 +96,7 @@ class LabelController extends Controller
         $label = Label::findOrFail($id);
 
         $data = $this->validate($request, [
-            'name' => 'required|string|unique:labels',
+            'name' => 'required|string|unique:labels,name,' . $label->id,
             'description' => 'nullable'
         ]);
 
@@ -114,10 +112,18 @@ class LabelController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Label $label
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(Label $label)
+    public function destroy(Label $label): RedirectResponse
     {
-        //
+        #TODO Если метка используется в задаче, то она не должна удаляться.
+        #Вместо этого выводится флеш сообщение: "Не удалось удалить метку"
+        $label = Label::find($label->id);
+
+        $label->delete();
+
+        flash('Метка успешно удалена')->success();
+
+        return redirect()->route('labels.index');
     }
 }

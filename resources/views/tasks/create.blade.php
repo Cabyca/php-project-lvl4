@@ -6,7 +6,10 @@
            @csrf
             <div class="form-group mb-3">
                 <label for="name">Имя</label>
-                <input class="form-control" name="name" type="text" id="name">
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
+                @error('name')
+                        <div class="invalid-feedback">Задача с таким именем уже существует</div>
+                    @enderror
             </div>
 
             <div class="form-group mb-3">
@@ -16,16 +19,11 @@
 
             <div class="form-group mb-3">
                 <label for="status_id">Статус</label>
-                <select class="form-control" id="status_id" name="status_id">
+                <select class="form-control" id="status_id" name="status_id"> //ключ status_id значение $status->id
                     <option selected="selected" value="">----------</option>
-{{--                    @foreach($taskStatuses as $item)--}}
-{{--                        <option>{{ $item->name }}</option>--}}
-{{--                    @endforeach--}}
-{{--                    <option value="1">новая1</option>--}}
-{{--                    <option value="2">завершена</option>--}}
-{{--                    <option value="3">выполняется</option>--}}
-{{--                    <option value="4">в а</option>--}}
-{{--                    <option value="31">амбрелла</option>--}}
+                    @foreach($taskStatuses as $taskStatus)
+                        <option value="{{ $taskStatus->id }}">{{ $taskStatus->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -33,18 +31,19 @@
                 <label for="assigned_to_id">Исполнитель</label>
                 <select class="form-control" id="assigned_to_id" name="assigned_to_id">
                     <option selected="selected" value="">----------</option>
-                    <option value="1">Алёна Владимировна Ивановаа</option>
-                    <option value="2">Максим Евгеньевич Кузьмин</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="form-group mb-3">
-                <label for="labels">Метки</label>
-                <select class="form-control" multiple="" name="labels[]"><option value="">
-                    </option><option value="1">ошибка</option>
-                    <option value="2">документация</option>
-                    <option value="3">дубликат</option>
-                    <option value="4">доработка</option></select>
+                <label for="label">Метки</label>
+                <select class="form-control" id="label" multiple="" name="labels[]">
+                    <option value=""></option>
+                    @foreach($labels as $label)
+                        <option value="{{ $label->id }}">{{ $label->name }}</option>
+                    @endforeach
             </div>
 
             <input class="btn btn-primary mt-3" type="submit" value="Создать">

@@ -29,9 +29,11 @@
 
                     </div></form>
             </div>
+            @auth
             <div class="ms-auto">
                 <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">Создать задачу</a>
             </div>
+            @endauth
         </div>
 
         <table class="table me-2">
@@ -51,29 +53,27 @@
                 <tr>
                     <td>{{ $task->id }}</td>
                     <td>{{ $task->status->name }}</td>
-                    <td>{{ $task->name }}</td>
-                    <td>{{ $task->createdBy['name'] }}</td>
-                    <td>{{ $task->assignedTo['name'] }}</td>
-                    <td>{{ $task->created_at }}</td>
                     <td>
-                        <a class="text-decoration-none" href="{{ route('task_statuses.edit', $task->id) }}">Изменить</a>
+                        <a href = "{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a>
+                    </td>
+                    <td>{{ $task->createdBy->name }}</td>
+                    <td>{{ $task->assignedTo->name }}</td>
+                    <td>{{ $task->created_at }}</td>
+                    @auth
+                    <td>
+                        <a class="text-danger text-decoration-none"
+                        href="{{ route('tasks.destroy', $task) }}"
+                        data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+                    </td>
+                    @endauth
+                    <td>
+                        // Исправить
+                        <a class="text-decoration-none" href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                    <span class="page-link" aria-hidden="true">‹</span>
-                </li>
-                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                <li class="page-item"><a class="page-link" href="https://php-task-manager-ru.hexlet.app/tasks?page=2">2</a></li>
-                <li class="page-item"><a class="page-link" href="https://php-task-manager-ru.hexlet.app/tasks?page=3">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="https://php-task-manager-ru.hexlet.app/tasks?page=2" rel="next" aria-label="Next »">›</a>
-                </li>
-            </ul>
-        </nav>
+        {{ $tasks->links() }}
     </main>
 @endsection

@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use JetBrains\PhpStorm\NoReturn;
 
 class TaskStatusController extends Controller
 {
@@ -114,10 +115,13 @@ class TaskStatusController extends Controller
      * @return RedirectResponse
      */
     //public function destroy(TaskStatus $taskStatus): RedirectResponse
-    public function destroy(TaskStatus $taskStatus): RedirectResponse
+    #[NoReturn] public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
         //dd($taskStatus);
-
+//        // If no author has been assigned, assign the current user's id as the author of the post
+//        if (!$this->author_id && Auth::user()) {
+//            $this->author_id = Auth::user()->id;
+//        }
 
 //        if (Task::where('status_id', $id)) {
 //            flash('Невозможно удалить статус - есть привязанные задачи')->success();
@@ -125,6 +129,8 @@ class TaskStatusController extends Controller
 //        }
 
         $status = TaskStatus::find($taskStatus->id);
+
+        //dd($status);
 
         $status->delete();
 
