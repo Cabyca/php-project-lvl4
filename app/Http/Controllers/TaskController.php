@@ -6,27 +6,42 @@ use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
-    #TODO Сделать проверку на разрешение удаления если это тот пользователь
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $tasks = Task::orderBy('id')->paginate(3);
+        $filter = $request->input('filter');
 
-        return view('tasks.index', compact('tasks'));
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters([
+                AllowedFilter::exact('assigned_to_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('status_id'),
+            ])
+            ->paginate(15);
+
+        $taskStatuses = TaskStatus::all();
+        $users = User::all();
+        $labels = Label::all();
+        return view('tasks.index', compact('tasks', 'taskStatuses', 'users', 'labels', 'filter'));
     }
 
     /**
@@ -48,6 +63,7 @@ class TaskController extends Controller
      * @param Request $request
      * @return RedirectResponse
      * @throws ValidationException
+     * @throws Exception
      */
     public function store(Request $request): RedirectResponse
     {
@@ -62,18 +78,26 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable' //Связано с сущностью пользователя. Тот на кого поставлена задача
         ]);
 
-        $label = $request->input('labels')[0];
+        //$task->created_by_id = auth()->user()->__get('id'); //Создатель задачи
+        //'user_id' => Auth::id()
 
-        $task->labels()->attach(['label_id' => $label, 'task_id' => 1]);
+        $user = Auth::user();
+
+        if (!isset($user)) {
+            throw new Exception('User is not authenticated');
+        }
+        $task = $user->createdTasks()->make($data);
+        $task->save();
+
+        $labels = $request->input('labels');
+
+        $task->labels()->attach($labels);
 
         //$task->labels->label_id = 1;
 //            , ['name.unique' => __('validation.tasks.name')]);
 
-        //$task->created_by_id = auth()->user()->id; //Создатель задачи
-        $task->created_by_id = auth()->user()->__get('id');
 
-        $task->fill($data);
-        $task->save();
+
 
         flash('Задача успешно создана')->success();
 
@@ -114,6 +138,7 @@ class TaskController extends Controller
      * @param Request $request
      * @param int $id
      * @return RedirectResponse
+     * @throws Exception
      */
     public function update(Request $request, int $id): RedirectResponse
     {
@@ -126,17 +151,24 @@ class TaskController extends Controller
             'assigned_to_id' => 'nullable' //Связано с сущностью пользователя. Тот на кого поставлена задача
         ]);
 
-        //$task->created_by_id = auth()->user()->id; //Создатель задачи
-        $task->created_by_id = auth()->user()->__get('id');
+        $user = Auth::user();
 
-        $task->fill($data);
+        if (!isset($user)) {
+            throw new Exception('User is not authenticated');
+        }
+        $task = $user->createdTasks()->make($data);
         $task->save();
+
+        $labels = $request->input('labels');
+
+        $task->labels()->sync($labels);
 
         flash('Задача успешно изменена')->success();
 
         return redirect()->route('tasks.index');
     }
 
+    #TODO Сделать проверку на разрешение удаления если это тот пользователь
     /**
      * Remove the specified resource from storage.
      *

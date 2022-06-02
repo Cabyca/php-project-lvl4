@@ -23,7 +23,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $assigned_to_tasks_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $createdTasks
  * @property-read int|null $created_tasks_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|
+ * \Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count

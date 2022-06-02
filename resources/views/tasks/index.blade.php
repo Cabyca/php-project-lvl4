@@ -4,30 +4,53 @@
         <h1 class="mb-5">Задачи</h1>
         <div class="d-flex mb-3">
             <div>
-                <form method="GET" action="https://php-task-manager-ru.hexlet.app/tasks" accept-charset="UTF-8">
+                <form method="GET" action="{{ route('tasks.index') }}" accept-charset="UTF-8">
+                    @csrf
+{{--                    <form method="GET" action="https://php-task-manager-ru.hexlet.app/tasks" accept-charset="UTF-8">--}}
                     <div class="row g-1">
                         <div class="col">
                             <select class="form-select me-2" name="filter[status_id]">
                                 <option selected="selected" value="">Статус</option>
-                                <option value="1">новая1</option>
+                                @foreach($taskStatuses as $taskStatus)
+                                    @if(isset($filter) && $filter['status_id'] == $taskStatus->id)
+                                        <option selected value="{{ $taskStatus->id }}">{{ $taskStatus->name }}</option>
+                                        @else <option value="{{ $taskStatus->id }}">{{ $taskStatus->name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
+
                         <div class="col">
                             <select class="form-select me-2" name="filter[created_by_id]">
-                                <option selected="selected" value="">Автор
-                                <option value="33">foreachq</option>
+                                <option selected="selected" value="">Автор</option>
+                                @foreach($users as $user)
+                                    @if(isset($filter) && $filter['created_by_id'] == $user->id)
+                                        <option selected value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @else <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
+
+
+
                         <div class="col">
                             <select class="form-select me-2" name="filter[assigned_to_id]">
                                 <option selected="selected" value="">Исполнитель</option>
+                                @foreach($users as $user)
+                                    @if(isset($filter) && $filter['assigned_to_id'] == $user->id)
+                                        <option selected value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @else <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="col">
                             <input class="btn btn-outline-primary me-2" type="submit" value="Применить">
                         </div>
 
-                    </div></form>
+                    </div>
+                </form>
             </div>
             @auth
             <div class="ms-auto">
@@ -67,7 +90,6 @@
                     </td>
                     @endauth
                     <td>
-                        // Исправить
                         <a class="text-decoration-none" href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                     </td>
                 </tr>

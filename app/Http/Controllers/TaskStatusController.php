@@ -63,16 +63,16 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param TaskStatus $taskStatus
-     * @return Response
-     */
-    public function show(TaskStatus $taskStatus)
-    {
-        //
-    }
+//    /**
+//     * Display the specified resource.
+//     *
+//     * @param TaskStatus $taskStatus
+//     * @return Response
+//     */
+//    public function show(TaskStatus $taskStatus)
+//    {
+//        //
+//    }
 
     /**
      * Show the form for editing the specified resource.
@@ -114,23 +114,9 @@ class TaskStatusController extends Controller
      * @param TaskStatus $taskStatus
      * @return RedirectResponse
      */
-    //public function destroy(TaskStatus $taskStatus): RedirectResponse
     #[NoReturn] public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
-        //dd($taskStatus);
-//        // If no author has been assigned, assign the current user's id as the author of the post
-//        if (!$this->author_id && Auth::user()) {
-//            $this->author_id = Auth::user()->id;
-//        }
-
-//        if (Task::where('status_id', $id)) {
-//            flash('Невозможно удалить статус - есть привязанные задачи')->success();
-//            return redirect()->route('task_statuses.index');
-//        }
-
         $status = TaskStatus::find($taskStatus->id);
-
-        //dd($status);
 
         $status->delete();
 

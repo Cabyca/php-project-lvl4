@@ -8,12 +8,11 @@
         <p>Имя: {{ $task->name }}</p>
         <p>Статус: {{ $task->status->name }}</p>
         <p>Описание: {{ $task->description }}</p>
-{{--        <p>Метки: {{ $task->labels()->wherePivot('label_id', '=', '1') }}</p>--}}
-        <p>Метки: {{ $task->labels }}</p>
+        <p>Метки:</p>
         <ul>
-{{--            @foreach($task->label_task as $label)--}}
-{{--                <li>{{ $label->name }}</li>--}}
-{{--            @endforeach--}}
+            @foreach($task->labels as $label)
+                <li>{{ $label->name }}</li>
+            @endforeach
         </ul>
     </main>
 @endsection

@@ -20,7 +20,8 @@ class TaskStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(['новый', 'в работе', 'на тестировании', 'завершен'])
+            'name' => $this->faker->text(5),
+//        randomElement(['новый', 'в работе', 'на тестировании', 'завершен'])
         ];
     }
 }
