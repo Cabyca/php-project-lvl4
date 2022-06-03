@@ -94,10 +94,11 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
+
         $taskStatus = TaskStatus::findOrFail($id);
 
         $data = $this->validate($request, [
-            'name' => 'required|string|unique:task_statuses'
+            'name' => 'required|string|unique:task_statuses,name,' . $taskStatus->id,
         ]);
 
         $taskStatus->fill($data);

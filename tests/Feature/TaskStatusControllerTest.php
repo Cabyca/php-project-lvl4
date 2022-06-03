@@ -15,6 +15,8 @@ class TaskStatusControllerTest extends TestCase
     {
         parent::setUp();
 
+        $this->withoutMiddleware();
+
         $this->status = TaskStatus::factory()->count(4)->create();
     }
 
@@ -27,13 +29,15 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore()
     {
+        $fakeStatus = TaskStatus::factory()->make()->getAttribute('name');
+
         $data = [
-            "name" => "новый статус"
+            "name" => $fakeStatus
         ];
         $response = $this->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'новый статус']);
+        $this->assertDatabaseHas('task_statuses', ['name' => $fakeStatus]);
     }
 
     public function testStoreInvalid()
@@ -51,18 +55,50 @@ class TaskStatusControllerTest extends TestCase
     {
         $taskStatus = TaskStatus::first();
 
-        $taskStatusFake = TaskStatus::factory()->make();
+        //$taskStatusFake = TaskStatus::factory()->make();
+        //$nameFakeStatus = $taskStatusFake->first()->getAttribute('name');
 
-        dd($taskStatusFake);
+        $fakeStatus = TaskStatus::factory()->make()->getAttribute('name');
 
-        $response = $this->patch(route('task_statuses.update', $taskStatus->id), $taskStatusFake);
+        $response = $this->patch(
+            route('task_statuses.update', $taskStatus->id),
+            ['name' => $fakeStatus]
+        );
 
-//        $data = $this->validate($request, [
-//            'name' => 'required|string|unique:task_statuses'
-//        ]);
-//
-//        $taskStatus->fill($data);
-//        $taskStatus->save();
+        $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('task_statuses', ['name' => $fakeStatus]);
+    }
 
+    public function testUpdateWithValidationErrors()
+    {
+        $taskStatus = TaskStatus::first();
+
+        $data = [
+            "name" => ""
+        ];
+        $response = $this->patch(
+            route('task_statuses.update', $taskStatus->id),
+            $data
+        );
+        $response->assertSessionHasErrors();
+    }
+
+    public function testEdit()
+    {
+        $id = TaskStatus::first()->id;
+
+        $response = $this->get(route('task_statuses.edit', $id), [$this->status]);
+        //$response->assertSee('PATCH');
+        $response->assertOk();
+        $response->assertViewIs('statuses.edit');
+    }
+
+    public function testDestroy()
+    {
+        $taskStatus = TaskStatus::first();
+        $response = $this->delete(route('task_statuses.destroy', $taskStatus));
+        $taskStatus2 = TaskStatus::find($taskStatus->id);
+        $this->assertNull($taskStatus2);
     }
 }
