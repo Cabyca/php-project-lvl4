@@ -36,7 +36,8 @@ class TaskController extends Controller
                 AllowedFilter::exact('created_by_id'),
                 AllowedFilter::exact('status_id'),
             ])
-            ->paginate(15);
+            ->paginate(15)->withPath("?" . $request->getQueryString());
+            //сохраняем данные при пагинации
 
         $taskStatuses = TaskStatus::all();
         $users = User::all();

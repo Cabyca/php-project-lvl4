@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
 {
-    protected string $status;
+    protected string $statuses;
 
     protected function setUp(): void
     {
@@ -17,7 +17,7 @@ class TaskStatusControllerTest extends TestCase
 
         $this->withoutMiddleware();
 
-        $this->status = TaskStatus::factory()->count(4)->create();
+        $this->statuses = TaskStatus::factory()->count(4)->create();
     }
 
     public function testIndex()
@@ -88,7 +88,7 @@ class TaskStatusControllerTest extends TestCase
     {
         $id = TaskStatus::first()->id;
 
-        $response = $this->get(route('task_statuses.edit', $id), [$this->status]);
+        $response = $this->get(route('task_statuses.edit', $id), [$this->statuses]);
         //$response->assertSee('PATCH');
         $response->assertOk();
         $response->assertViewIs('statuses.edit');
@@ -98,7 +98,8 @@ class TaskStatusControllerTest extends TestCase
     {
         $taskStatus = TaskStatus::first();
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
-        $taskStatus2 = TaskStatus::find($taskStatus->id);
-        $this->assertNull($taskStatus2);
+        //$response->assertRedirect();
+        $taskStatus = TaskStatus::find($taskStatus->id);
+        $this->assertDatabaseMissing('tasks', ['id' => $taskStatus->id]);
     }
 }
