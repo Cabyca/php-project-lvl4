@@ -26,5 +26,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
         //Paginator::useBootstrapFour();
+        \Form::component('bsSelect', 'components.form.select', [
+            'name', 'values', 'value' => null, 'attributes' => []
+        ]);
+        \Form::component('bsTextarea', 'components.form.textarea', [
+            'name', 'value' => null, 'attributes' => []
+        ]);
+        \Form::component('bsText', 'components.form.text', [
+            'name', 'value' => null, 'attributes' => []
+        ]);
     }
 }

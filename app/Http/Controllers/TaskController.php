@@ -28,6 +28,8 @@ class TaskController extends Controller
      */
     public function index(Request $request): View
     {
+        //get_class_methods($request); все методы данного класса https://www.youtube.com/watch?v=_d0h8QG2vTM
+
         $filter = $request->input('filter');
 
         $tasks = QueryBuilder::for(Task::class)
@@ -39,10 +41,10 @@ class TaskController extends Controller
             ->paginate(15)->withPath("?" . $request->getQueryString());
             //сохраняем данные при пагинации
 
-        $taskStatuses = TaskStatus::all();
-        $users = User::all();
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
         $labels = Label::all();
-        return view('tasks.index', compact('tasks', 'taskStatuses', 'users', 'labels', 'filter'));
+        return view('tasks.index', compact('tasks', 'statuses', 'users', 'labels', 'filter'));
     }
 
     /**
@@ -52,10 +54,11 @@ class TaskController extends Controller
      */
     public function create(): View
     {
-        $taskStatuses = TaskStatus::all();
+        $task = new Task();
+        $statuses = TaskStatus::all();
         $users = User::all();
         $labels = Label::all();
-        return view('tasks.create', compact('taskStatuses', 'users', 'labels'));
+        return view('tasks.create', compact('statuses', 'users', 'labels', 'task'));
     }
 
     /**
@@ -69,8 +72,6 @@ class TaskController extends Controller
     public function store(Request $request): RedirectResponse
     {
         //dd($request->all()); // Реализовать запись в таблицы users и label
-
-        $task = new Task();
 
         $data = $this->validate($request, [
             'name' => 'required|string|unique:tasks',
@@ -127,10 +128,10 @@ class TaskController extends Controller
      */
     public function edit(Task $task): View
     {
-        $taskStatuses = TaskStatus::all();
+        $statuses = TaskStatus::all();
         $users = User::all();
         $labels = Label::all();
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
+        return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
     /**

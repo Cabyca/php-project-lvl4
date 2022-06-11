@@ -33,7 +33,8 @@ class TaskStatusController extends Controller
      */
     public function create(): View
     {
-        return view('statuses.create');
+        $taskStatus = new TaskStatus();
+        return view('statuses.create', compact('taskStatus'));
     }
 
     /**
@@ -46,7 +47,7 @@ class TaskStatusController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $taskStatus = new TaskStatus();
-
+        dd($request->all());
         $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses'
         ]);
@@ -115,7 +116,7 @@ class TaskStatusController extends Controller
      * @param TaskStatus $taskStatus
      * @return RedirectResponse
      */
-    #[NoReturn] public function destroy(TaskStatus $taskStatus): RedirectResponse
+    public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
         $status = TaskStatus::find($taskStatus->id);
 

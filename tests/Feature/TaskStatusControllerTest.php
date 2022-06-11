@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\TaskStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -15,7 +16,7 @@ class TaskStatusControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware();
+        //$this->withoutMiddleware();
 
         $this->statuses = TaskStatus::factory()->count(4)->create();
     }
@@ -29,23 +30,24 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore()
     {
-        $fakeStatus = TaskStatus::factory()->make()->getAttribute('name');
-
-        $data = [
-            "name" => $fakeStatus
-        ];
-        $response = $this->post(route('task_statuses.store'), $data);
+        $user = User::factory()->create();
+        $taskStatus = TaskStatus::factory()->make();
+        $data = $taskStatus->only(['name']);
+        $response = $this
+            ->actingAs($user)
+            ->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $fakeStatus]);
+        $this->assertDatabaseHas('task_statuses', $data);
     }
 
     public function testStoreInvalid()
     {
+        $user = User::factory()->create();
+
         $data = [
             "name" => ""
         ];
-        $response = $this->post(route('task_statuses.store'), $data);
+        $response = $this->actingAs($user)->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasErrors();
         $this->assertDatabaseMissing('task_statuses', ['name' => '']);
@@ -53,14 +55,13 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $taskStatus = TaskStatus::first();
+        $user = User::factory()->create();
 
-        //$taskStatusFake = TaskStatus::factory()->make();
-        //$nameFakeStatus = $taskStatusFake->first()->getAttribute('name');
+        $taskStatus = TaskStatus::first();
 
         $fakeStatus = TaskStatus::factory()->make()->getAttribute('name');
 
-        $response = $this->patch(
+        $response = $this->actingAs($user)->patch(
             route('task_statuses.update', $taskStatus->id),
             ['name' => $fakeStatus]
         );
@@ -72,12 +73,14 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdateWithValidationErrors()
     {
+        $user = User::factory()->create();
+
         $taskStatus = TaskStatus::first();
 
         $data = [
             "name" => ""
         ];
-        $response = $this->patch(
+        $response = $this->actingAs($user)->patch(
             route('task_statuses.update', $taskStatus->id),
             $data
         );
@@ -89,16 +92,16 @@ class TaskStatusControllerTest extends TestCase
         $id = TaskStatus::first()->id;
 
         $response = $this->get(route('task_statuses.edit', $id), [$this->statuses]);
-        //$response->assertSee('PATCH');
         $response->assertOk();
         $response->assertViewIs('statuses.edit');
     }
 
     public function testDestroy()
     {
+        $user = User::factory()->create();
         $taskStatus = TaskStatus::first();
-        $response = $this->delete(route('task_statuses.destroy', $taskStatus));
-        //$response->assertRedirect();
+        $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
+        $response->assertRedirect();
         $taskStatus = TaskStatus::find($taskStatus->id);
         $this->assertDatabaseMissing('tasks', ['id' => $taskStatus->id]);
     }
