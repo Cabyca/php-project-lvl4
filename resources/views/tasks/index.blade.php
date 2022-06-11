@@ -3,12 +3,24 @@
     <main class="container py-4">
         <h1 class="mb-5">Задачи</h1>
         <div class="d-flex mb-3">
+            <div>
                 {{ Form::open(['url' => route('tasks.index'), 'method' => 'get', 'class' => 'form-inline']) }}
-                    {{ Form::select('filter[status_id]', $statuses, Arr::get($filter, 'status_id', ''), ['class' => 'form-control mr-2', 'placeholder' => __('pages.task.models.status_id')]) }}
-                    {{ Form::select('filter[created_by_id]', $users, Arr::get($filter, 'created_by_id', ''), ['class' => 'form-control mr-2', 'placeholder' => __('pages.task.models.createdBy')]) }}
-                    {{ Form::select('filter[assigned_to_id]', $users, Arr::get($filter, 'assigned_to_id', ''), ['class' => 'form-control mr-2', 'placeholder' => __('pages.task.models.assignedTo')]) }}
-                    {{ Form::submit(__('pages.filters.submit'), ['class' => 'btn btn-outline-primary mr-2']) }}
-                {{ Form::close() }}
+                <div class="row g-1">
+                    <div class="col">
+                        {{ Form::select('filter[status_id]', $statuses, Arr::get($filter, 'status_id', ''), ['class' => 'form-select me-2', 'placeholder' => __('pages.task.models.status_id')]) }}
+                    </div>
+                    <div class="col">
+                        {{ Form::select('filter[created_by_id]', $users, Arr::get($filter, 'created_by_id', ''), ['class' => 'form-select me-2', 'placeholder' => __('pages.task.models.createdBy')]) }}
+                    </div>
+                    <div class="col">
+                        {{ Form::select('filter[assigned_to_id]', $users, Arr::get($filter, 'assigned_to_id', ''), ['class' => 'form-select me-2', 'placeholder' => __('pages.task.models.assignedTo')]) }}
+                    </div>
+                    <div class="col">
+                        {{ Form::submit(__('pages.filters.submit'), ['class' => 'btn btn-outline-primary mr-2']) }}
+                    </div>
+                    {{ Form::close() }}
+                </div>
+            </div>
 {{--                <form method="GET" action="{{ route('tasks.index') }}" accept-charset="UTF-8">--}}
 {{--                    @csrf--}}
 {{--                    <form method="GET" action="https://php-task-manager-ru.hexlet.app/tasks" accept-charset="UTF-8">--}}
@@ -36,8 +48,6 @@
 {{--                                @endforeach--}}
 {{--                            </select>--}}
 {{--                        </div>--}}
-
-
 
 {{--                        <div class="col">--}}
 {{--                            <select class="form-select me-2" name="filter[assigned_to_id]">--}}

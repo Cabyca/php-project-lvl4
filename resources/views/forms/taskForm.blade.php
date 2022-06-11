@@ -1,6 +1,5 @@
-<h1 class="mb-5">{{$header}}</h1>
+<h1 class="mb-5">{{ $header }}</h1>
 {{ Form::model($task, ['url' => $route, 'method' => $method ?? 'post', 'class' => 'w-50']) }}
-{{--    {{ Form::token() }}--}}
     {{ Form::bsText('name') }}
     {{ Form::bsTextarea('description') }}
     {{ Form::bsSelect('status_id', $statuses->pluck('name','id'), null, ['formName' => 'task']) }}
