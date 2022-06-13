@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -47,7 +48,7 @@ class TaskStatusController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $taskStatus = new TaskStatus();
-        dd($request->all());
+
         $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses'
         ]);
@@ -119,6 +120,11 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
         $status = TaskStatus::find($taskStatus->id);
+
+        if ((DB::table('tasks')->where('status_id', $status->id)->get()->toArray()) !== []) {
+            flash('Не удалось удалить статус')->error();
+            return redirect()->route('task_statuses.index');
+        }
 
         $status->delete();
 

@@ -1,11 +1,11 @@
 @php
     $sectionName = $attributes['formName'] ?? 'default';
 @endphp
-<div class="form-group">
+<div class="form-group mb-3">
     {{ Form::label($name, __("pages.forms.{$sectionName}.{$name}")) }}
     {{
         Form::text($name,$value,
-            ['class' => ($errors->has($name)) ? 'form-control is-invalid' : 'form-control'])
+            ['class' => ($errors->has($name)) ? 'form-control is-invalid' : 'form-control mb-3'])
     }}
     @error($name)
     <div class="invalid-feedback">{{ $message }}</div>

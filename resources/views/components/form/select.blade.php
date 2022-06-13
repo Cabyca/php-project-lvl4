@@ -13,7 +13,7 @@
             $isMultiple === true ? "{$name}[]" : $name,
             $values,
             $value,
-            ['class' => ($errors->has($name)) ? 'form-control is-invalid' : 'form-control', $multiple, 'placeholder' => $placeholder])
+            ['class' => ($errors->has($name)) ? 'form-control is-invalid' : 'form-control mb-3', $multiple, 'placeholder' => $placeholder])
     }}
     @error($name)
     <div class="invalid-feedback">{{ $message }}</div>
