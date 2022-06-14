@@ -181,6 +181,8 @@ class TaskController extends Controller
     {
         $task = Task::find($task->id);
 
+        $task->labels()->detach();
+
         $task->delete();
 
         flash('Задача успешно удалена')->success();

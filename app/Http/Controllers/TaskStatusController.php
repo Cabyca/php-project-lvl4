@@ -121,10 +121,16 @@ class TaskStatusController extends Controller
     {
         $status = TaskStatus::find($taskStatus->id);
 
-        if ((DB::table('tasks')->where('status_id', $status->id)->get()->toArray()) !== []) {
-            flash('Не удалось удалить статус')->error();
-            return redirect()->route('task_statuses.index');
+//        if ((DB::table('tasks')->where('status_id', $status->id)->get()->toArray()) !== []) {
+//            flash('Не удалось удалить статус')->error();
+//            return redirect()->route('task_statuses.index');
+//        }
+
+        if ($taskStatus->tasks()->exists()) {
+            flash(__('flash.taskStatus.destroy.error'))->error();
+            return back();
         }
+        $taskStatus->delete();
 
         $status->delete();
 
