@@ -82,7 +82,9 @@
                 <th>Автор</th>
                 <th>Исполнитель</th>
                 <th>Дата создания</th>
-                <th>Действия</th>
+                @auth
+                    <th>Действия</th>
+                @endauth
             </tr>
             </thead>
             <tbody>
@@ -96,15 +98,17 @@
                     <td>{{ $task->createdBy->name }}</td>
                     <td>{{ $task->assignedTo->name }}</td>
                     <td>{{ $task->created_at }}</td>
-                    @auth
                     <td>
-                        <a class="text-danger text-decoration-none"
-                        href="{{ route('tasks.destroy', $task) }}"
-                        data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+                        @can('delete', $task)
+                            <a class="text-danger text-decoration-none"
+                               href="{{ route('tasks.destroy', $task) }}"
+                               data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+                        @endcan
                     </td>
-                    @endauth
                     <td>
-                        <a class="text-decoration-none" href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
+                        @can('update', $task)
+                            <a class="text-decoration-none" href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
+                        @endcan
                     </td>
                 </tr>
             @endforeach

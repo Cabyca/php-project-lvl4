@@ -16,8 +16,6 @@ class TaskStatusControllerTest extends TestCase
     {
         parent::setUp();
 
-        //$this->withoutMiddleware();
-
         $this->statuses = TaskStatus::factory()->count(4)->create();
     }
 
@@ -102,7 +100,6 @@ class TaskStatusControllerTest extends TestCase
         $taskStatus = TaskStatus::first();
         $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
         $response->assertRedirect();
-        $taskStatus = TaskStatus::find($taskStatus->id);
-        $this->assertDatabaseMissing('tasks', ['id' => $taskStatus->id]);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id]);
     }
 }

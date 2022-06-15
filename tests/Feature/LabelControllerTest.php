@@ -17,8 +17,6 @@ class LabelControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware();
-
         $this->labels = Label::factory()->count(4)->create();
     }
 
@@ -108,7 +106,6 @@ class LabelControllerTest extends TestCase
         $label = Label::first();
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
         $response->assertRedirect();
-        $label2 = Label::find($label->id);
-        $this->assertDatabaseMissing('labels', ['id' => $label2->id]);
+        $this->assertDatabaseMissing('labels', ['id' => $label->id]);
     }
 }

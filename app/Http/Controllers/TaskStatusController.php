@@ -60,7 +60,7 @@ class TaskStatusController extends Controller
         $taskStatus->fill($data);
         $taskStatus->save();
 
-        flash('Статус успешно создан')->success();
+        flash(__('flash.taskStatus.store.success'))->success();
 
         return redirect()->route('task_statuses.index');
     }
@@ -106,7 +106,7 @@ class TaskStatusController extends Controller
         $taskStatus->fill($data);
         $taskStatus->save();
 
-        flash('Статус успешно изменен')->success();
+        flash(__('flash.taskStatus.update.success'))->success();
 
         return redirect()->route('task_statuses.index');
     }
@@ -121,20 +121,14 @@ class TaskStatusController extends Controller
     {
         $status = TaskStatus::find($taskStatus->id);
 
-//        if ((DB::table('tasks')->where('status_id', $status->id)->get()->toArray()) !== []) {
-//            flash('Не удалось удалить статус')->error();
-//            return redirect()->route('task_statuses.index');
-//        }
-
-        if ($taskStatus->tasks()->exists()) {
+        if ($status->tasks()->exists()) {
             flash(__('flash.taskStatus.destroy.error'))->error();
             return back();
         }
-        $taskStatus->delete();
 
         $status->delete();
 
-        flash('Статус успешно удален')->success();
+        flash(__('flash.taskStatus.destroy.success'))->success();
 
         return redirect()->route('task_statuses.index');
     }

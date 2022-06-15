@@ -37,7 +37,6 @@
 {{--                                @csrf--}}
 {{--                                @method('delete')--}}
 {{--                            </form>--}}
-
                         @endcan
                         @can('update', $status)
                             <a class="text-decoration-none" href="{{ route('task_statuses.edit', $status->id) }}">Изменить</a>

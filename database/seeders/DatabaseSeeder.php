@@ -22,9 +22,5 @@ class DatabaseSeeder extends Seeder
         TaskStatus::factory(4)->create();
         Task::factory(5)->create();
         Label::factory(5)->create();
-
-//        'status_id' => TaskStatus::factory()->create()->id,
-//        'created_by_id' => User::factory()->create()->id,
-//        'assigned_to_id' => User::factory()->create()->id,
     }
 }

@@ -56,7 +56,7 @@ class LabelController extends Controller
         $label->fill($data);
         $label->save();
 
-        flash('Метка успешно создана')->success();
+        flash(__('flash.label.store.success'))->success();
 
         return redirect()->route('labels.index');
     }
@@ -67,7 +67,7 @@ class LabelController extends Controller
      * @param Label $label
      * @return Response
      */
-    public function show(Label $label)
+    public function show(Label $label): Response
     {
         //
     }
@@ -103,7 +103,7 @@ class LabelController extends Controller
         $label->fill($data);
         $label->save();
 
-        flash('Метка успешно изменена')->success();
+        flash(__('flash.label.update.success'))->success();
 
         return redirect()->route('labels.index');
     }
@@ -120,9 +120,14 @@ class LabelController extends Controller
         #Вместо этого выводится флеш сообщение: "Не удалось удалить метку"
         $label = Label::find($label->id);
 
+        if ($label->tasks()->exists()) {
+            flash(__('flash.label.destroy.error'))->error();
+            return back();
+        }
+
         $label->delete();
 
-        flash('Метка успешно удалена')->success();
+        flash(__('flash.label.destroy.success'))->success();
 
         return redirect()->route('labels.index');
     }

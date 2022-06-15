@@ -98,10 +98,7 @@ class TaskController extends Controller
         //$task->labels->label_id = 1;
 //            , ['name.unique' => __('validation.tasks.name')]);
 
-
-
-
-        flash('Задача успешно создана')->success();
+        flash(__('flash.task.store.success'))->success();
 
         return redirect()->route('tasks.index');
         //return to_route('home');
@@ -150,7 +147,7 @@ class TaskController extends Controller
             'name' => 'required|string|unique:tasks,name,' . $task->id,
             'description' => 'nullable',
             'status_id' => 'required',
-            'assigned_to_id' => 'nullable' //Связано с сущностью пользователя. Тот на кого поставлена задача
+            'assigned_to_id' => 'nullable'
         ]);
 
         $user = Auth::user();
@@ -165,7 +162,7 @@ class TaskController extends Controller
 
         $task->labels()->sync($labels);
 
-        flash('Задача успешно изменена')->success();
+        flash(__('flash.task.update.success'))->success();
 
         return redirect()->route('tasks.index');
     }
@@ -185,7 +182,7 @@ class TaskController extends Controller
 
         $task->delete();
 
-        flash('Задача успешно удалена')->success();
+        flash(__('flash.task.destroy.success'))->success();
 
         return redirect()->route('tasks.index');
     }
