@@ -97,15 +97,15 @@
                     </td>
                     <td>{{ $task->createdBy->name }}</td>
                     <td>{{ $task->assignedTo->name }}</td>
-                    <td>{{ $task->created_at }}</td>
+                    <td>{{ $task->created_at->format('d.m.Y') }}</td>
                     <td>
                         @can('delete', $task)
                             <a class="text-danger text-decoration-none"
                                href="{{ route('tasks.destroy', $task) }}"
                                data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
                         @endcan
-                    </td>
-                    <td>
+{{--                    </td>--}}
+{{--                    <td>--}}
                         @can('update', $task)
                             <a class="text-decoration-none" href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                         @endcan

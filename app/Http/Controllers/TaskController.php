@@ -157,6 +157,7 @@ class TaskController extends Controller
         }
         $task = $user->createdTasks()->make($data);
         $task->save();
+        //$task->update();
 
         $labels = $request->input('labels');
 
