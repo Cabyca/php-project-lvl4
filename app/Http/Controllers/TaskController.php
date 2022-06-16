@@ -112,7 +112,11 @@ class TaskController extends Controller
      */
     public function show(Task $task): Application|Factory|View
     {
-        //dd($task->labels->name);
+        $user = Auth::user();
+
+        if (!isset($user)) {
+            abort('403', 'THIS ACTION IS UNAUTHORIZED.');
+        }
 
         return view('tasks.show', compact('task'));
     }
