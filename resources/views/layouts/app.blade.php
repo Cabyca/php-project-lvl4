@@ -84,13 +84,6 @@
         </nav>
         <main class="container py-4">
             @include('flash::message')
-{{--            <div class="flex-shrink-0">--}}
-{{--                @if ($errors->any())--}}
-{{--                    @foreach ($errors->all() as $error)--}}
-{{--                        <h5 class="alert alert-danger" role="alert" class="flex-shrink-0">{{ $error }}</h5>--}}
-{{--                    @endforeach--}}
-{{--                @endif--}}
-{{--            </div>--}}
             @yield('content')
         </main>
     </div>

@@ -28,8 +28,6 @@ class TaskController extends Controller
      */
     public function index(Request $request): View
     {
-        //get_class_methods($request); все методы данного класса https://www.youtube.com/watch?v=_d0h8QG2vTM
-
         $filter = $request->input('filter');
 
         $tasks = QueryBuilder::for(Task::class)
@@ -39,7 +37,6 @@ class TaskController extends Controller
                 AllowedFilter::exact('status_id'),
             ])
             ->paginate(15)->withPath("?" . $request->getQueryString());
-            //сохраняем данные при пагинации
 
         $statuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
@@ -71,17 +68,18 @@ class TaskController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //dd($request->all()); // Реализовать запись в таблицы users и label
-
-        $data = $this->validate($request, [
-            'name' => 'required|string|unique:tasks',
-            'description' => 'nullable',
-            'status_id' => 'required',
-            'assigned_to_id' => 'nullable' //Связано с сущностью пользователя. Тот на кого поставлена задача
-        ]);
-
-        //$task->created_by_id = auth()->user()->__get('id'); //Создатель задачи
-        //'user_id' => Auth::id()
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required|string|unique:tasks',
+                'description' => 'nullable',
+                'status_id' => 'required',
+                'assigned_to_id' => 'nullable'
+            ],
+            ['name.unique' => __('validation.task.name.unique'),
+                'name.required' => __('validation.task.name.required'),
+                'status_id.required' => __('validation.task.status_id.required')]
+        );
 
         $user = Auth::user();
 
@@ -95,13 +93,9 @@ class TaskController extends Controller
 
         $task->labels()->attach($labels);
 
-        //$task->labels->label_id = 1;
-//            , ['name.unique' => __('validation.tasks.name')]);
-
         flash(__('flash.task.store.success'))->success();
 
         return redirect()->route('tasks.index');
-        //return to_route('home');
     }
 
     /**
@@ -147,21 +141,27 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $data = $this->validate($request, [
+        $data = $this->validate(
+            $request,
+            [
             'name' => 'required|string|unique:tasks,name,' . $task->id,
             'description' => 'nullable',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable'
-        ]);
+            ],
+            ['name.unique' => __('validation.task.name.unique'),
+                'name.required' => __('validation.task.name.required'),
+            'status_id.required' => __('validation.task.status_id.required')]
+        );
 
         $user = Auth::user();
 
         if (!isset($user)) {
             throw new Exception('User is not authenticated');
         }
-        $task = $user->createdTasks()->make($data);
+        //$task = $user->createdTasks()->make($data);
+        $task->fill($data);
         $task->save();
-        //$task->update();
 
         $labels = $request->input('labels');
 
@@ -172,7 +172,6 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    #TODO Сделать проверку на разрешение удаления если это тот пользователь
     /**
      * Remove the specified resource from storage.
      *
@@ -181,8 +180,6 @@ class TaskController extends Controller
      */
     public function destroy(Task $task): RedirectResponse
     {
-        $task = Task::find($task->id);
-
         $task->labels()->detach();
 
         $task->delete();

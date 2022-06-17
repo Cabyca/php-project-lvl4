@@ -13,10 +13,25 @@ return [
     |
     */
 
-//    'task_status' => [
-//        'name' => 'Такой статус уже есть'
-//    ],
+    'task_status' => [
+        'name' => 'Такой статус уже есть',
+        'required' => 'Это обязательное поле'
+    ],
 
+    'label' => [
+        'name' => 'Метка с таким именем уже существует',
+        'required' => 'Это обязательное поле'
+    ],
+
+    'task' => [
+        'name' => [
+            'unique' => 'Задача с таким именем уже существует',
+            'required' => 'Это обязательное поле'
+            ],
+        'status_id' => [
+            'required' => 'Это обязательное поле'
+        ]
+    ],
 
     'accepted' => 'The :attribute must be accepted.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',

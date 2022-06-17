@@ -51,11 +51,8 @@ class TaskStatusController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses'
-        ]);
-
-//        $data = $this->validate($request, [
-//            'name' => 'required|string|unique:task_statuses'
-//        ], ['name.unique' => __('validation.task_status.name')]);
+        ], ['name.unique' => __('validation.task_status.name'),
+            'name.required' => __('validation.task_status.required')]);
 
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -64,18 +61,6 @@ class TaskStatusController extends Controller
 
         return redirect()->route('task_statuses.index');
     }
-
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param TaskStatus $taskStatus
-//     * @return Response
-//     */
-//    public function show(TaskStatus $taskStatus)
-//    {
-//        //
-//    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -101,7 +86,8 @@ class TaskStatusController extends Controller
 
         $data = $this->validate($request, [
             'name' => 'required|string|unique:task_statuses,name,' . $taskStatus->id,
-        ]);
+        ], ['name.unique' => __('validation.task_status.name'),
+            'name.required' => __('validation.task_status.required')]);
 
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -119,14 +105,12 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus): RedirectResponse
     {
-        $status = TaskStatus::find($taskStatus->id);
-
-        if ($status->tasks()->exists()) {
+        if ($taskStatus->tasks()->exists()) {
             flash(__('flash.taskStatus.destroy.error'))->error();
             return back();
         }
 
-        $status->delete();
+        $taskStatus->delete();
 
         flash(__('flash.taskStatus.destroy.success'))->success();
 
