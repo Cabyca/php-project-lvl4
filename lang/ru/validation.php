@@ -161,14 +161,12 @@ return [
     */
 
     'custom' => [
-        //'name' => ['required', 'string', 'min:1', 'max:255']
         'name' => [
             'required' => 'Это обязательное поле',
             'string' => 'Имя должно быть строкой',
             'min' => 'Имя должно быть не менее 8 знаков',
             'max' => 'Имя должно быть не более 255 знаков'
         ],
-        //'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'email' => [
             'required' => 'Это обязательное поле',
             'string' => 'Email должен быть строкой',
@@ -176,7 +174,6 @@ return [
             'max' => 'Email должен быть не более 255 знаков',
             'unique' => 'Email уже занят'
         ],
-        //'password' => ['required', 'string', 'min:8', 'confirmed'],
         'password' => [
             'required' => 'Это обязательное поле',
             'string' => 'Пароль должен быть строкой',

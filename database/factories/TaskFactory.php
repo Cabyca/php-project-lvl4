@@ -21,9 +21,6 @@ class TaskFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'description' => $this->faker->text('50'),
-//            'status_id' => $this->faker->numberBetween(1, 4),
-//            'created_by_id' => $this->faker->numberBetween(1, 4),
-//            'assigned_to_id' => $this->faker->numberBetween(1, 4),
             'status_id' => TaskStatus::factory()->create()->id,
             'created_by_id' => User::factory()->create()->id,
             'assigned_to_id' => User::factory()->create()->id,

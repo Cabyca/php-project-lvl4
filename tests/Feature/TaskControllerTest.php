@@ -34,7 +34,6 @@ class TaskControllerTest extends TestCase
     public function testStore()
     {
         $user = User::factory()->create();
-        //$this->actingAs(User::factory()->create());
 
         $fakeTask = Task::factory()->make();
 
@@ -46,13 +45,10 @@ class TaskControllerTest extends TestCase
             'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
         ];
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
-        //dd($response);
+
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        foreach (Task::all() as $item) {
-//            echo $item->getAttribute('name');
-//            echo '<br>';
-//        }
+
         $this->assertDatabaseHas('tasks', ['name' => $fakeTask->getAttribute('name')]);
     }
 
@@ -66,7 +62,6 @@ class TaskControllerTest extends TestCase
             'name' => '',
             'description' => $fakeTask->getAttribute('description'),
             'status_id' => $fakeTask->getAttribute('status_id'),
-            //'created_by_id' => $fakeTask->getAttribute('created_by_id'),
             'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
         ];
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
@@ -87,7 +82,6 @@ class TaskControllerTest extends TestCase
             'name' => $fakeTask->getAttribute('name'),
             'description' => $fakeTask->getAttribute('description'),
             'status_id' => $fakeTask->getAttribute('status_id'),
-            //'created_by_id' => $fakeTask->getAttribute('created_by_id'),
             'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
         ];
 
@@ -110,7 +104,6 @@ class TaskControllerTest extends TestCase
             'name' => '',
             'description' => $fakeTask->getAttribute('description'),
             'status_id' => $fakeTask->getAttribute('status_id'),
-            //'created_by_id' => $fakeTask->getAttribute('created_by_id'),
             'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
         ];
 

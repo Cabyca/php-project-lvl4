@@ -91,6 +91,10 @@ class TaskController extends Controller
 
         $labels = $request->input('labels');
 
+        $labels = collect($labels)->filter(function ($label) {
+            return $label !== null;
+        });
+
         $task->labels()->attach($labels);
 
         flash(__('flash.task.store.success'))->success();
@@ -159,7 +163,7 @@ class TaskController extends Controller
         if (!isset($user)) {
             throw new Exception('User is not authenticated');
         }
-        //$task = $user->createdTasks()->make($data);
+
         $task->fill($data);
         $task->save();
 

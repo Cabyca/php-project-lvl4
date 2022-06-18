@@ -31,8 +31,6 @@ class LabelControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        //dd($user);
-
         $fakeLabel = Label::factory()->make();
 
         $data = [

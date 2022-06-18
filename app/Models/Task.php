@@ -53,7 +53,6 @@ class Task extends Model
 
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        //return $this->belongsTo(TaskStatus::class, 'status_id', 'id');
         return $this->belongsTo(TaskStatus::class);
     }
 

@@ -25,8 +25,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('urls', [UrlController::class, 'index']);
-
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
