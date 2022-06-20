@@ -47,7 +47,7 @@ class TaskStatusControllerTest extends TestCase
             ->actingAs($user)
             ->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
-        $this->assertDatabaseHas('task_statuses', $data);
+        $this->assertDatabaseHas('task_statuses', ['name' => collect($fakeStatus)->get('name')]);
     }
 
     public function testStoreInvalid()
@@ -82,7 +82,7 @@ class TaskStatusControllerTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => $fakeStatus]);
+        $this->assertDatabaseHas('task_statuses', ['name' => collect($fakeStatus)->get('name')]);
     }
 
     public function testUpdateWithValidationErrors()
