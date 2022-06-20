@@ -47,11 +47,15 @@ class LabelController extends Controller
     {
         $label = new Label();
 
-        $data = $this->validate($request, [
+        $data = $this->validate(
+            $request,
+            [
             'name' => 'required|string|unique:labels',
             'description' => 'nullable'
-        ], ['name.unique' => __('validation.label.name')],
-            ['name.required' => __('validation.label.name')]);
+            ],
+            ['name.unique' => __('validation.label.name')],
+            ['name.required' => __('validation.label.name')]
+        );
 
         $label->fill($data);
         $label->save();
@@ -84,11 +88,15 @@ class LabelController extends Controller
     {
         $label = Label::findOrFail($id);
 
-        $data = $this->validate($request, [
+        $data = $this->validate(
+            $request,
+            [
             'name' => 'required|string|unique:labels,name,' . $label->id,
             'description' => 'nullable'
-        ], ['name.unique' => __('validation.label.name')],
-            ['name.required' => __('validation.label.name')]);
+            ],
+            ['name.unique' => __('validation.label.name')],
+            ['name.required' => __('validation.label.name')]
+        );
 
         $label->fill($data);
         $label->save();
