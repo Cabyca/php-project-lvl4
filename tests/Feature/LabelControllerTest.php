@@ -42,7 +42,7 @@ class LabelControllerTest extends TestCase
         $fakeLabel = Label::factory()->make();
 
         $data = [
-            collect($fakeLabel)->get('name')
+            "name" => collect($fakeLabel)->get('name')
         ];
 
         $response = $this->actingAs($user)->post(route('labels.store'), $data);
@@ -73,7 +73,7 @@ class LabelControllerTest extends TestCase
         $fakeLabel = Label::factory()->make();
 
         $data = [
-            collect($fakeLabel)->get('name')
+            "name" => collect($fakeLabel)->get('name')
         ];
 
         $response = $this->actingAs($user)->patch(

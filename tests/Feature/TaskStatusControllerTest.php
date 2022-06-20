@@ -40,7 +40,7 @@ class TaskStatusControllerTest extends TestCase
         $fakeStatus = TaskStatus::factory()->make();
 
         $data = [
-            collect($fakeStatus)->get('name')
+            "name" => collect($fakeStatus)->get('name')
         ];
 
         $response = $this
@@ -72,7 +72,7 @@ class TaskStatusControllerTest extends TestCase
         $fakeStatus = TaskStatus::factory()->make();
 
         $data = [
-            collect($fakeStatus)->get('name')
+            "name" => collect($fakeStatus)->get('name')
         ];
 
         $response = $this->actingAs($user)->patch(
