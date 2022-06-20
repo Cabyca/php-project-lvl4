@@ -12,6 +12,7 @@ use Tests\TestCase;
 class LabelControllerTest extends TestCase
 {
     protected string $labels;
+    protected string $user;
 
     protected function setUp(): void
     {
@@ -27,6 +28,13 @@ class LabelControllerTest extends TestCase
         $response->assertViewIs('labels.index');
     }
 
+    public function testCreate()
+    {
+        $response = $this->get(route('labels.create'));
+        $response->assertOk();
+        $response->assertViewIs('labels.create');
+    }
+
     public function testStore()
     {
         $user = User::factory()->create();
@@ -34,8 +42,9 @@ class LabelControllerTest extends TestCase
         $fakeLabel = Label::factory()->make();
 
         $data = [
-            "name" => $fakeLabel->getAttribute('name'),
+            collect($fakeLabel)->get('name')
         ];
+
         $response = $this->actingAs($user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -61,16 +70,20 @@ class LabelControllerTest extends TestCase
 
         $label = Label::first();
 
-        $fakeLabel = Label::factory()->make()->getAttribute('name');
+        $fakeLabel = Label::factory()->make();
+
+        $data = [
+            collect($fakeLabel)->get('name')
+        ];
 
         $response = $this->actingAs($user)->patch(
             route('labels.update', $label->id),
-            ['name' => $fakeLabel]
+            ['name' => $data]
         );
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => $fakeLabel]);
+        $this->assertDatabaseHas('labels', ['name' => $data]);
     }
 
     public function testUpdateWithValidationErrors()

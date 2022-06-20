@@ -10,7 +10,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use phpDocumentor\Reflection\Types\Nullable;
 
 class LabelController extends Controller
 {
@@ -48,15 +47,11 @@ class LabelController extends Controller
     {
         $label = new Label();
 
-        $data = $this->validate(
-            $request,
-            [
+        $data = $this->validate($request, [
             'name' => 'required|string|unique:labels',
             'description' => 'nullable'
-            ],
-            ['name.unique' => __('validation.label.name')],
-            ['name.required' => __('validation.label.name')]
-        );
+        ], ['name.unique' => __('validation.label.name')],
+            ['name.required' => __('validation.label.name')]);
 
         $label->fill($data);
         $label->save();
@@ -64,17 +59,6 @@ class LabelController extends Controller
         flash(__('flash.label.store.success'))->success();
 
         return redirect()->route('labels.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Label $label
-     * @return Response
-     */
-    public function show(Label $label): Response
-    {
-        //
     }
 
     /**
@@ -100,15 +84,11 @@ class LabelController extends Controller
     {
         $label = Label::findOrFail($id);
 
-        $data = $this->validate(
-            $request,
-            [
+        $data = $this->validate($request, [
             'name' => 'required|string|unique:labels,name,' . $label->id,
             'description' => 'nullable'
-            ],
-            ['name.unique' => __('validation.label.name')],
-            ['name.required' => __('validation.label.name')]
-        );
+        ], ['name.unique' => __('validation.label.name')],
+            ['name.required' => __('validation.label.name')]);
 
         $label->fill($data);
         $label->save();

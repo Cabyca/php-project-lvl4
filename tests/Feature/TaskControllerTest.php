@@ -19,7 +19,6 @@ class TaskControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->users = User::factory()->count(4)->create();
         $this->statuses = TaskStatus::factory()->count(4)->create();
         $this->tasks = Task::factory()->count(4)->create();
     }
@@ -29,6 +28,13 @@ class TaskControllerTest extends TestCase
         $response = $this->get(route('tasks.index'));
         $response->assertOk();
         $response->assertViewIs('tasks.index');
+    }
+
+    public function testCreate()
+    {
+        $response = $this->get(route('tasks.create'));
+        $response->assertOk();
+        $response->assertViewIs('tasks.create');
     }
 
     public function testStore()

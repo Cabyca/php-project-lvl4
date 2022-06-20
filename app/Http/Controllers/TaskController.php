@@ -68,18 +68,14 @@ class TaskController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $data = $this->validate(
-            $request,
-            [
-                'name' => 'required|string|unique:tasks',
-                'description' => 'nullable',
-                'status_id' => 'required',
-                'assigned_to_id' => 'nullable'
-            ],
-            ['name.unique' => __('validation.task.name.unique'),
-                'name.required' => __('validation.task.name.required'),
-                'status_id.required' => __('validation.task.status_id.required')]
-        );
+        $data = $this->validate($request, [
+            'name' => 'required|string|unique:tasks',
+            'description' => 'nullable',
+            'status_id' => 'required',
+            'assigned_to_id' => 'nullable'
+        ], ['name.unique' => __('validation.task.name.unique'),
+            'name.required' => __('validation.task.name.required'),
+            'status_id.required' => __('validation.task.status_id.required')]);
 
         $user = Auth::user();
 
@@ -91,9 +87,13 @@ class TaskController extends Controller
 
         $labels = $request->input('labels');
 
+        var_dump($labels);
+
         $labels = collect($labels)->filter(function ($label) {
             return $label !== null;
         });
+
+        dd($labels->get('0'));
 
         $task->labels()->attach($labels);
 
@@ -145,18 +145,14 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $data = $this->validate(
-            $request,
-            [
+        $data = $this->validate($request, [
             'name' => 'required|string|unique:tasks,name,' . $task->id,
             'description' => 'nullable',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable'
-            ],
-            ['name.unique' => __('validation.task.name.unique'),
-                'name.required' => __('validation.task.name.required'),
-            'status_id.required' => __('validation.task.status_id.required')]
-        );
+        ], ['name.unique' => __('validation.task.name.unique'),
+            'name.required' => __('validation.task.name.required'),
+            'status_id.required' => __('validation.task.status_id.required')]);
 
         $user = Auth::user();
 

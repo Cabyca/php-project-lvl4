@@ -6,7 +6,6 @@ use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class TaskStatusPolicy
 {
@@ -20,7 +19,7 @@ class TaskStatusPolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -28,11 +27,11 @@ class TaskStatusPolicy
      *
      * @param User $user
      * @param TaskStatus $taskStatus
-     * @return void
+     * @return Response|bool
      */
-    public function view(User $user, TaskStatus $taskStatus): void
+    public function view(User $user, TaskStatus $taskStatus): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -79,7 +78,7 @@ class TaskStatusPolicy
      */
     public function restore(User $user, TaskStatus $taskStatus): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -91,6 +90,6 @@ class TaskStatusPolicy
      */
     public function forceDelete(User $user, TaskStatus $taskStatus): Response|bool
     {
-        //
+        return true;
     }
 }

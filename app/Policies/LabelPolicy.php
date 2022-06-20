@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Label;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
@@ -20,7 +19,7 @@ class LabelPolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -32,7 +31,7 @@ class LabelPolicy
      */
     public function view(User $user, Label $label): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -68,7 +67,6 @@ class LabelPolicy
     public function delete(User $user, Label $label): Response|bool
     {
         return (bool) $user;
-        //return $label->tasks()->exists();
     }
 
     /**
@@ -80,7 +78,7 @@ class LabelPolicy
      */
     public function restore(User $user, Label $label): Response|bool
     {
-        //
+        return true;
     }
 
     /**
@@ -92,6 +90,6 @@ class LabelPolicy
      */
     public function forceDelete(User $user, Label $label): Response|bool
     {
-        //
+        return true;
     }
 }

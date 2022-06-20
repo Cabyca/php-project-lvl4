@@ -26,11 +26,23 @@ class TaskStatusControllerTest extends TestCase
         $response->assertViewIs('statuses.index');
     }
 
+    public function testCreate()
+    {
+        $response = $this->get(route('task_statuses.create'));
+        $response->assertOk();
+        $response->assertViewIs('statuses.create');
+    }
+
     public function testStore()
     {
         $user = User::factory()->create();
-        $taskStatus = TaskStatus::factory()->make();
-        $data = $taskStatus->only(['name']);
+
+        $fakeStatus = TaskStatus::factory()->make();
+
+        $data = [
+            collect($fakeStatus)->get('name')
+        ];
+
         $response = $this
             ->actingAs($user)
             ->post(route('task_statuses.store'), $data);
@@ -57,11 +69,15 @@ class TaskStatusControllerTest extends TestCase
 
         $taskStatus = TaskStatus::first();
 
-        $fakeStatus = TaskStatus::factory()->make()->getAttribute('name');
+        $fakeStatus = TaskStatus::factory()->make();
+
+        $data = [
+            collect($fakeStatus)->get('name')
+        ];
 
         $response = $this->actingAs($user)->patch(
             route('task_statuses.update', $taskStatus->id),
-            ['name' => $fakeStatus]
+            ['name' => $data]
         );
 
         $response->assertRedirect();
