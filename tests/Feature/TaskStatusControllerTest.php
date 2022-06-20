@@ -77,7 +77,7 @@ class TaskStatusControllerTest extends TestCase
 
         $response = $this->actingAs($user)->patch(
             route('task_statuses.update', $taskStatus->id),
-            ['name' => $data]
+            $data
         );
 
         $response->assertRedirect();

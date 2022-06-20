@@ -78,7 +78,7 @@ class LabelControllerTest extends TestCase
 
         $response = $this->actingAs($user)->patch(
             route('labels.update', $label->id),
-            ['name' => collect($fakeLabel)->get('name')]
+            $data
         );
 
         $response->assertRedirect();
