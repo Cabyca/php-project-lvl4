@@ -42,15 +42,15 @@ class LabelControllerTest extends TestCase
         $user = User::factory()->create();
 
         $fakeLabel = Label::factory()->make();
-
-        $data = [
-            "name" => collect($fakeLabel)->get('name')
-        ];
+        $data = $fakeLabel->only(['name', 'description']);
 
         $response = $this->actingAs($user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => collect($fakeLabel)->get('name')]);
+        $this->assertDatabaseHas('labels', [
+            'name' => $fakeLabel->only(['name']),
+            'description' => $fakeLabel->only(['description'])
+        ]);
     }
 
     public function testStoreInvalid()
@@ -73,10 +73,7 @@ class LabelControllerTest extends TestCase
         $label = Label::first();
 
         $fakeLabel = Label::factory()->make();
-
-        $data = [
-            "name" => collect($fakeLabel)->get('name')
-        ];
+        $data = $fakeLabel->only(['name', 'description']);
 
         $response = $this->actingAs($user)->patch(
             route('labels.update', $label->id),
@@ -85,8 +82,10 @@ class LabelControllerTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        //$this->assertDatabaseHas('labels', ['name' => $data]);
-        $this->assertDatabaseHas('labels', ['name' => collect($fakeLabel)->get('name')]);
+        $this->assertDatabaseHas('labels', [
+            'name' => $fakeLabel->only(['name']),
+            'description' => $fakeLabel->only(['description'])
+        ]);
     }
 
     public function testUpdateWithValidationErrors()

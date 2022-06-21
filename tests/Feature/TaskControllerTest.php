@@ -44,20 +44,22 @@ class TaskControllerTest extends TestCase
         $user = User::factory()->create();
 
         $fakeTask = Task::factory()->make();
+        $data = $fakeTask->only([
+            'name',
+            'description',
+            'status_id',
+            'assigned_to_id',
+        ]);
 
-        $data = [
-            'name' => $fakeTask->getAttribute('name'),
-            'description' => $fakeTask->getAttribute('description'),
-            'status_id' => $fakeTask->getAttribute('status_id'),
-            //'created_by_id' => $fakeTask->getAttribute('created_by_id'),
-            'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
-        ];
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
-
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-
-        $this->assertDatabaseHas('tasks', ['name' => $fakeTask->getAttribute('name')]);
+        $this->assertDatabaseHas('tasks', [
+            'name' => $fakeTask->only(['name']),
+            'description' => $fakeTask->only(['description']),
+            'status_id' => $fakeTask->only(['status_id']),
+            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
+        ]);
     }
 
     public function testStoreInvalid()
@@ -68,9 +70,9 @@ class TaskControllerTest extends TestCase
 
         $data = [
             'name' => '',
-            'description' => $fakeTask->getAttribute('description'),
-            'status_id' => $fakeTask->getAttribute('status_id'),
-            'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
+            'description' => $fakeTask->only(['description']),
+            'status_id' => $fakeTask->only(['status_id']),
+            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
         ];
         $response = $this->actingAs($user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
@@ -85,19 +87,23 @@ class TaskControllerTest extends TestCase
         $task = Task::first();
 
         $fakeTask = Task::factory()->make();
-
-        $data = [
-            'name' => $fakeTask->getAttribute('name'),
-            'description' => $fakeTask->getAttribute('description'),
-            'status_id' => $fakeTask->getAttribute('status_id'),
-            'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
-        ];
+        $data = $fakeTask->only([
+            'name',
+            'description',
+            'status_id',
+            'assigned_to_id',
+        ]);
 
         $response = $this->actingAs($user)->patch(route('tasks.update', $task->id), $data);
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', ['name' => $fakeTask->getAttribute('name')]);
+        $this->assertDatabaseHas('tasks', [
+            'name' => $fakeTask->only(['name']),
+            'description' => $fakeTask->only(['description']),
+            'status_id' => $fakeTask->only(['status_id']),
+            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
+        ]);
     }
 
     public function testUpdateWithValidationErrors()

@@ -40,16 +40,15 @@ class TaskStatusControllerTest extends TestCase
         $user = User::factory()->create();
 
         $fakeStatus = TaskStatus::factory()->make();
-
-        $data = [
-            "name" => collect($fakeStatus)->get('name')
-        ];
+        $data = $fakeStatus->only(['name']);
 
         $response = $this
             ->actingAs($user)
             ->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
-        $this->assertDatabaseHas('task_statuses', ['name' => collect($fakeStatus)->get('name')]);
+        $this->assertDatabaseHas('task_statuses', [
+            'name' => $fakeStatus->only(['name']),
+        ]);
     }
 
     public function testStoreInvalid()
@@ -72,19 +71,17 @@ class TaskStatusControllerTest extends TestCase
         $taskStatus = TaskStatus::first();
 
         $fakeStatus = TaskStatus::factory()->make();
-
-        $data = [
-            "name" => collect($fakeStatus)->get('name')
-        ];
+        $data = $fakeStatus->only(['name']);
 
         $response = $this->actingAs($user)->patch(
             route('task_statuses.update', $taskStatus->id),
             $data
         );
-
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => collect($fakeStatus)->get('name')]);
+        $this->assertDatabaseHas('task_statuses', [
+            'name' => $fakeStatus->only(['name']),
+        ]);
     }
 
     public function testUpdateWithValidationErrors()
