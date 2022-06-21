@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <main class="container py-4">
+{{--    <main class="container py-4">--}}
         <h1 class="mb-5">Задачи</h1>
         <div class="d-flex mb-3">
             <div>
@@ -71,5 +71,5 @@
             </tbody>
         </table>
         {{ $tasks->links() }}
-    </main>
+{{--    </main>--}}
 @endsection

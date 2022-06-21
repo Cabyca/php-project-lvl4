@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <main class="container py-4">
+{{--    <main class="container py-4">--}}
         <h1 class="mb-5">Статусы</h1>
         @auth
             <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">Создать статус</a>
@@ -36,5 +36,5 @@
             @endforeach
             </tbody>
         </table>
-    </main>
+{{--    </main>--}}
 @endsection
