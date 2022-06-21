@@ -87,13 +87,9 @@ class TaskController extends Controller
 
         $labels = $request->input('labels');
 
-        var_dump($labels);
-
         $labels = collect($labels)->filter(function ($label) {
             return $label !== null;
         });
-
-        dd($labels->get('0'));
 
         $task->labels()->attach($labels);
 
