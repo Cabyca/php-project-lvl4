@@ -28,7 +28,9 @@ class TaskStatusControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->get(route('task_statuses.create'));
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('task_statuses.create'));
         $response->assertOk();
         $response->assertViewIs('statuses.create');
     }

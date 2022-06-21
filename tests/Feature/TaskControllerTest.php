@@ -32,7 +32,9 @@ class TaskControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->get(route('tasks.create'));
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('tasks.create'));
         $response->assertOk();
         $response->assertViewIs('tasks.create');
     }

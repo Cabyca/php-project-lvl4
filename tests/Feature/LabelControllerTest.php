@@ -30,7 +30,9 @@ class LabelControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->get(route('labels.create'));
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('labels.create'));
         $response->assertOk();
         $response->assertViewIs('labels.create');
     }
