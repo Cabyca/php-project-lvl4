@@ -17,9 +17,9 @@ class OrderShipped extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param $password
+     * @param string $password
      */
-    public function __construct($password)
+    public function __construct(string $password)
     {
         //
         $this->password = $password;

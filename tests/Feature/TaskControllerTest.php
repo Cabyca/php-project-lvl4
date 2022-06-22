@@ -116,16 +116,16 @@ class TaskControllerTest extends TestCase
 
         $data = [
             'name' => '',
-            'description' => $fakeTask->getAttribute('description'),
-            'status_id' => $fakeTask->getAttribute('status_id'),
-            'assigned_to_id' => $fakeTask->getAttribute('assigned_to_id'),
+            'description' => $fakeTask->only(['description']),
+            'status_id' => $fakeTask->only(['status_id']),
+            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
         ];
 
         $response = $this->actingAs($user)->patch(route('tasks.update', $task->id), $data);
 
         $response->assertRedirect();
         $response->assertSessionHasErrors();
-        $this->assertDatabaseMissing('tasks', ['name' => $fakeTask->getAttribute('name')]);
+        $this->assertDatabaseMissing('tasks', ['name' => '']);
     }
 
     public function testEdit()

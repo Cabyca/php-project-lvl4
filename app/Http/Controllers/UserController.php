@@ -12,62 +12,55 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return bool
      */
-    public function index(): Response
+    public function index(): bool
     {
-//        Метод to принимает адрес электронной почты, экземпляр пользователя или набор пользователей
-//
-//        public function store(Request $request)
-//        {
-//            $order = Order::findOrFail($request->order_id);
-//            // Ship the order...
-//            Mail::to($request->user())->send(new OrderShipped($order));
-//        }
         Mail::to('alex@google.com')->send(new OrderShipped('123'));
+        return true;
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return bool
      */
-    public function create(): Response
+    public function create(): bool
     {
-        //
+        return true;
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return bool
      */
-    public function store(Request $request): Response
+    public function store(Request $request): bool
     {
-        //
+        return true;
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return bool
      */
-    public function show($id): Response
+    public function show(int $id): bool
     {
-        //
+        return true;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return bool
      */
-    public function edit(int $id): Response
+    public function edit(int $id): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -75,21 +68,21 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param  int  $id
-     * @return Response
+     * @return bool
      */
-    public function update(Request $request, $id): Response
+    public function update(Request $request, int $id): bool
     {
-        //
+        return true;
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return bool
      */
-    public function destroy($id): Response
+    public function destroy(int $id): bool
     {
-        //
+        return true;
     }
 }
