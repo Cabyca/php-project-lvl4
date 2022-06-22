@@ -74,8 +74,6 @@ class LabelControllerTest extends TestCase
 
         $fakeLabel = Label::factory()->make();
         $data = $fakeLabel->only(['name', 'description']);
-
-        /** @var $id */
         $response = $this->actingAs($user)->patch(
             route('labels.update', $label->id),
             $data
@@ -99,7 +97,6 @@ class LabelControllerTest extends TestCase
             "name" => ""
         ];
 
-        /** @var $id */
         $response = $this->actingAs($user)->patch(
             route('labels.update', $label->id),
             $data
@@ -109,9 +106,7 @@ class LabelControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @var $id */
         $id = Label::first()->id;
-
         $response = $this->get(route('labels.edit', $id), [$this->labels]);
         $response->assertOk();
         $response->assertViewIs('labels.edit');
@@ -123,7 +118,6 @@ class LabelControllerTest extends TestCase
         $label = Label::first();
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
         $response->assertRedirect();
-        /** @var $id */
         $this->assertDatabaseMissing('labels', ['id' => $label->id]);
     }
 }
