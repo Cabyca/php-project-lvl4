@@ -109,8 +109,7 @@ class TaskController extends Controller
         $user = Auth::user();
 
         if (!isset($user)) {
-            //abort('403', 'THIS ACTION IS UNAUTHORIZED.');
-            abort('403');
+            abort(403, 'THIS ACTION IS UNAUTHORIZED.');
         }
 
         return view('tasks.show', compact('task'));
