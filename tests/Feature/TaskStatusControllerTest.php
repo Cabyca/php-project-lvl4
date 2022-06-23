@@ -98,6 +98,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEdit()
     {
+        /** @phpstan-ignore-next-line */
         $id = TaskStatus::first()->getKey();
         $response = $this->get(route('task_statuses.edit', $id), [$this->statuses]);
         $response->assertOk();
@@ -110,6 +111,7 @@ class TaskStatusControllerTest extends TestCase
         $taskStatus = TaskStatus::first();
         $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
         $response->assertRedirect();
+        /** @phpstan-ignore-next-line */
         $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 }

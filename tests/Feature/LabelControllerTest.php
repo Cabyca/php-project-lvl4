@@ -99,6 +99,7 @@ class LabelControllerTest extends TestCase
 
     public function testEdit()
     {
+        /** @phpstan-ignore-next-line */
         $id = Label::first()->getKey();
         $response = $this->get(route('labels.edit', $id), [$this->labels]);
         $response->assertOk();
@@ -111,6 +112,7 @@ class LabelControllerTest extends TestCase
         $label = Label::first();
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
         $response->assertRedirect();
+        /** @phpstan-ignore-next-line */
         $this->assertDatabaseMissing('labels', ['id' => $label->getKey()]);
     }
 }
