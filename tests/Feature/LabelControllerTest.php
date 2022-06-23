@@ -75,7 +75,7 @@ class LabelControllerTest extends TestCase
         $fakeLabel = Label::factory()->make();
         $data = $fakeLabel->only(['name', 'description']);
         $response = $this->actingAs($user)->patch(
-            route('labels.update', $label->id),
+            route('labels.update', $label),
             $data
         );
 
@@ -98,7 +98,7 @@ class LabelControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($user)->patch(
-            route('labels.update', $label->id),
+            route('labels.update', $label),
             $data
         );
         $response->assertSessionHasErrors();

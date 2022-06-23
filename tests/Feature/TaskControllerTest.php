@@ -51,7 +51,7 @@ class TaskControllerTest extends TestCase
             'assigned_to_id',
         ]);
 
-        $response = $this->actingAs($user)->post(route('tasks.store'), $data);
+        $response = $this->actingAs($user)->post(route('tasks.store'), (array) $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', [
@@ -94,7 +94,7 @@ class TaskControllerTest extends TestCase
             'assigned_to_id',
         ]);
 
-        $response = $this->actingAs($user)->patch(route('tasks.update', $task->id), $data);
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), (array) $data);
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -121,7 +121,7 @@ class TaskControllerTest extends TestCase
             'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
         ];
 
-        $response = $this->actingAs($user)->patch(route('tasks.update', $task->id), $data);
+        $response = $this->actingAs($user)->patch(route('tasks.update', $task), $data);
 
         $response->assertRedirect();
         $response->assertSessionHasErrors();

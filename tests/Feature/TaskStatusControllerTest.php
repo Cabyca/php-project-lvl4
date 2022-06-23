@@ -74,7 +74,7 @@ class TaskStatusControllerTest extends TestCase
         $data = $fakeStatus->only(['name']);
 
         $response = $this->actingAs($user)->patch(
-            route('task_statuses.update', $taskStatus->id),
+            route('task_statuses.update', $taskStatus),
             $data
         );
         $response->assertRedirect();
@@ -94,7 +94,7 @@ class TaskStatusControllerTest extends TestCase
             "name" => ""
         ];
         $response = $this->actingAs($user)->patch(
-            route('task_statuses.update', $taskStatus->id),
+            route('task_statuses.update', $taskStatus),
             $data
         );
         $response->assertSessionHasErrors();
