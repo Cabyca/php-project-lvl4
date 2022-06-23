@@ -128,14 +128,12 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseMissing('tasks', ['name' => '']);
     }
 
+    /**
+     * @var int $id
+     */
     public function testEdit()
     {
-//        $id = Task::first()->id;
-//        $response = $this->get(route('tasks.edit', $id), [$this->tasks]);
-//        $response->assertOk();
-//        $response->assertViewIs('tasks.edit');
-
-        $id = Task::first()['id'];
+        $id = Task::first()->id;
         $response = $this->get(route('tasks.edit', $id), [$this->tasks]);
         $response->assertOk();
         $response->assertViewIs('tasks.edit');
