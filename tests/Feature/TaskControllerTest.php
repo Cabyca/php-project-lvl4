@@ -130,7 +130,7 @@ class TaskControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @var Task */
+        /** @phpstan-ignore-next-line */
         $id = Task::first()->id;
         $response = $this->get(route('tasks.edit', $id), [$this->tasks]);
         $response->assertOk();
@@ -153,6 +153,7 @@ class TaskControllerTest extends TestCase
         $task = Task::first();
         $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
         $response->assertRedirect();
+        /** @phpstan-ignore-next-line */
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 }
