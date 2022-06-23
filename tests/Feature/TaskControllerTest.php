@@ -54,12 +54,13 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('tasks.store'), (array) $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', [
-            'name' => $fakeTask->only(['name']),
-            'description' => $fakeTask->only(['description']),
-            'status_id' => $fakeTask->only(['status_id']),
-            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
-        ]);
+//        $this->assertDatabaseHas('tasks', [
+//            'name' => $fakeTask->only(['name']),
+//            'description' => $fakeTask->only(['description']),
+//            'status_id' => $fakeTask->only(['status_id']),
+//            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
+//        ]);
+        $this->assertDatabaseHas('tasks', $data);
     }
 
     public function testStoreInvalid()
@@ -98,12 +99,13 @@ class TaskControllerTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', [
-            'name' => $fakeTask->only(['name']),
-            'description' => $fakeTask->only(['description']),
-            'status_id' => $fakeTask->only(['status_id']),
-            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
-        ]);
+//        $this->assertDatabaseHas('tasks', [
+//            'name' => $fakeTask->only(['name']),
+//            'description' => $fakeTask->only(['description']),
+//            'status_id' => $fakeTask->only(['status_id']),
+//            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
+//        ]);
+        $this->assertDatabaseHas('tasks', $data);
     }
 
     public function testUpdateWithValidationErrors()

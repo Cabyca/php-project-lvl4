@@ -46,9 +46,10 @@ class TaskStatusControllerTest extends TestCase
             ->actingAs($user)
             ->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
-        $this->assertDatabaseHas('task_statuses', [
-            'name' => $fakeStatus->only(['name']),
-        ]);
+//        $this->assertDatabaseHas('task_statuses', [
+//            'name' => $fakeStatus->only(['name']),
+//        ]);
+        $this->assertDatabaseHas('task_statuses', $data);
     }
 
     public function testStoreInvalid()
@@ -79,9 +80,10 @@ class TaskStatusControllerTest extends TestCase
         );
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', [
-            'name' => $fakeStatus->only(['name']),
-        ]);
+//        $this->assertDatabaseHas('task_statuses', [
+//            'name' => $fakeStatus->only(['name']),
+//        ]);
+        $this->assertDatabaseHas('task_statuses', $data);
     }
 
     public function testUpdateWithValidationErrors()

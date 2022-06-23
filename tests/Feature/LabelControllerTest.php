@@ -47,10 +47,11 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', [
-            'name' => $fakeLabel->only(['name']),
-            'description' => $fakeLabel->only(['description'])
-        ]);
+//        $this->assertDatabaseHas('labels', [
+//            'name' => $fakeLabel->only(['name']),
+//            'description' => $fakeLabel->only(['description'])
+//        ]);
+        $this->assertDatabaseHas('labels', $data);
     }
 
     public function testStoreInvalid()
@@ -81,10 +82,11 @@ class LabelControllerTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', [
-            'name' => $fakeLabel->only(['name']),
-            'description' => $fakeLabel->only(['description'])
-        ]);
+//        $this->assertDatabaseHas('labels', [
+//            'name' => $fakeLabel->only(['name']),
+//            'description' => $fakeLabel->only(['description'])
+//        ]);
+        $this->assertDatabaseHas('labels', $data);
     }
 
     public function testUpdateWithValidationErrors()
