@@ -46,10 +46,7 @@ class TaskStatusControllerTest extends TestCase
             ->actingAs($user)
             ->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
-//        $this->assertDatabaseHas('task_statuses', [
-//            'name' => $fakeStatus->only(['name']),
-//        ]);
-        $this->assertDatabaseHas('task_statuses', $data);
+        $this->assertDatabaseHas('task_statuses', (array) $data);
     }
 
     public function testStoreInvalid()
@@ -80,10 +77,7 @@ class TaskStatusControllerTest extends TestCase
         );
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        $this->assertDatabaseHas('task_statuses', [
-//            'name' => $fakeStatus->only(['name']),
-//        ]);
-        $this->assertDatabaseHas('task_statuses', $data);
+        $this->assertDatabaseHas('task_statuses', (array) $data);
     }
 
     public function testUpdateWithValidationErrors()
@@ -104,8 +98,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @phpstan-ignore-next-line */
-        $id = TaskStatus::first()->id;
+        $id = TaskStatus::first()->getKey();
         $response = $this->get(route('task_statuses.edit', $id), [$this->statuses]);
         $response->assertOk();
         $response->assertViewIs('statuses.edit');
@@ -117,7 +110,6 @@ class TaskStatusControllerTest extends TestCase
         $taskStatus = TaskStatus::first();
         $response = $this->actingAs($user)->delete(route('task_statuses.destroy', $taskStatus));
         $response->assertRedirect();
-        /** @phpstan-ignore-next-line */
-        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id]);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 }

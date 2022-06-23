@@ -31,7 +31,6 @@ class LabelControllerTest extends TestCase
     public function testCreate()
     {
         $user = User::factory()->create();
-
         $response = $this->actingAs($user)->get(route('labels.create'));
         $response->assertOk();
         $response->assertViewIs('labels.create');
@@ -47,11 +46,7 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        $this->assertDatabaseHas('labels', [
-//            'name' => $fakeLabel->only(['name']),
-//            'description' => $fakeLabel->only(['description'])
-//        ]);
-        $this->assertDatabaseHas('labels', $data);
+        $this->assertDatabaseHas('labels', (array) $data);
     }
 
     public function testStoreInvalid()
@@ -82,11 +77,7 @@ class LabelControllerTest extends TestCase
 
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        $this->assertDatabaseHas('labels', [
-//            'name' => $fakeLabel->only(['name']),
-//            'description' => $fakeLabel->only(['description'])
-//        ]);
-        $this->assertDatabaseHas('labels', $data);
+        $this->assertDatabaseHas('labels', (array) $data);
     }
 
     public function testUpdateWithValidationErrors()
@@ -108,8 +99,7 @@ class LabelControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @phpstan-ignore-next-line */
-        $id = Label::first()->id;
+        $id = Label::first()->getKey();
         $response = $this->get(route('labels.edit', $id), [$this->labels]);
         $response->assertOk();
         $response->assertViewIs('labels.edit');
@@ -121,7 +111,6 @@ class LabelControllerTest extends TestCase
         $label = Label::first();
         $response = $this->actingAs($user)->delete(route('labels.destroy', $label));
         $response->assertRedirect();
-        /** @phpstan-ignore-next-line */
-        $this->assertDatabaseMissing('labels', ['id' => $label->id]);
+        $this->assertDatabaseMissing('labels', ['id' => $label->getKey()]);
     }
 }

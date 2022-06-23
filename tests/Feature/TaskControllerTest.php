@@ -54,13 +54,7 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('tasks.store'), (array) $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        $this->assertDatabaseHas('tasks', [
-//            'name' => $fakeTask->only(['name']),
-//            'description' => $fakeTask->only(['description']),
-//            'status_id' => $fakeTask->only(['status_id']),
-//            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
-//        ]);
-        $this->assertDatabaseHas('tasks', $data);
+        $this->assertDatabaseHas('tasks', (array) $data);
     }
 
     public function testStoreInvalid()
@@ -96,16 +90,9 @@ class TaskControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route('tasks.update', $task), (array) $data);
-
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-//        $this->assertDatabaseHas('tasks', [
-//            'name' => $fakeTask->only(['name']),
-//            'description' => $fakeTask->only(['description']),
-//            'status_id' => $fakeTask->only(['status_id']),
-//            'assigned_to_id' => $fakeTask->only(['assigned_to_id']),
-//        ]);
-        $this->assertDatabaseHas('tasks', $data);
+        $this->assertDatabaseHas('tasks', (array) $data);
     }
 
     public function testUpdateWithValidationErrors()
@@ -124,7 +111,6 @@ class TaskControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($user)->patch(route('tasks.update', $task), $data);
-
         $response->assertRedirect();
         $response->assertSessionHasErrors();
         $this->assertDatabaseMissing('tasks', ['name' => '']);
@@ -132,8 +118,7 @@ class TaskControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @phpstan-ignore-next-line */
-        $id = Task::first()->id;
+        $id = Task::first()->getKey();
         $response = $this->get(route('tasks.edit', $id), [$this->tasks]);
         $response->assertOk();
         $response->assertViewIs('tasks.edit');
@@ -155,7 +140,6 @@ class TaskControllerTest extends TestCase
         $task = Task::first();
         $response = $this->actingAs($user)->delete(route('tasks.destroy', $task));
         $response->assertRedirect();
-        /** @phpstan-ignore-next-line */
-        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+        $this->assertDatabaseMissing('tasks', ['id' => $task->getKey()]);
     }
 }
