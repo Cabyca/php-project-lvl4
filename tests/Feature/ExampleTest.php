@@ -15,6 +15,7 @@ class ExampleTest extends TestCase
     public function test(): void
     {
         $response = $this->get('/');
+        /** @phpstan-ignore-next-line */
         $response->assertStatus(200);
     }
 }
