@@ -130,7 +130,7 @@ class TaskControllerTest extends TestCase
 
     public function testEdit()
     {
-        /** @var int $id */
+        /** @var Task */
         $id = Task::first()->id;
         $response = $this->get(route('tasks.edit', $id), [$this->tasks]);
         $response->assertOk();
