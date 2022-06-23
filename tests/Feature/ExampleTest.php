@@ -12,8 +12,12 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testExample(): void
+    /** @phpstan-ignore-next-line */
+    public function test(): void
     {
-        $this->assertTrue(true);
+        /** @phpstan-ignore-next-line */
+        $response = $this->get('/');
+        /** @phpstan-ignore-next-line */
+        $response->assertStatus(200);
     }
 }
